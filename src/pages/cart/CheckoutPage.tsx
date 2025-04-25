@@ -21,8 +21,8 @@ export default function CheckoutPage() {
     setTimeout(() => {
       setIsProcessing(false);
       toast({
-        title: "Order Successful!",
-        description: "Thank you for your purchase. Your order has been confirmed.",
+        title: "Order Successful! 🎉",
+        description: "Thank you for your purchase. Your fresh produce will be delivered soon!",
       });
       navigate("/products");
     }, 2000);
@@ -56,7 +56,7 @@ export default function CheckoutPage() {
               </div>
               <Button 
                 type="submit" 
-                className="w-full" 
+                className="w-full bg-agro-primary hover:bg-agro-dark" 
                 disabled={isProcessing}
               >
                 {isProcessing ? "Processing..." : "Place Order"}
@@ -77,7 +77,7 @@ export default function CheckoutPage() {
                 />
                 <label htmlFor="cod">Cash on Delivery</label>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 italic">
                 More payment options coming soon!
               </p>
             </div>

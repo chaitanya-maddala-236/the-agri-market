@@ -6,11 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
+import { Trash, Plus, Minus } from "lucide-react";
 
 export default function CartPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [cartItems] = useState([
+  const [cartItems, setCartItems] = useState([
     {
       id: 1,
       name: "Fresh Tomatoes",
@@ -29,6 +30,26 @@ export default function CartPage() {
     }
   ]);
 
+  const removeItem = (itemId: number) => {
+    setCartItems(cartItems.filter(item => item.id !== itemId));
+    toast({
+      title: "Item removed",
+      description: "Item has been removed from your cart",
+    });
+  };
+
+  const updateQuantity = (itemId: number, delta: number) => {
+    setCartItems(cartItems.map(item => {
+      if (item.id === itemId) {
+        const newQuantity = item.quantity + delta;
+        if (newQuantity > 0) {
+          return { ...item, quantity: newQuantity };
+        }
+      }
+      return item;
+    }));
+  };
+
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   const handleCheckout = () => {
@@ -44,7 +65,7 @@ export default function CartPage() {
         {cartItems.length === 0 ? (
           <div className="text-center py-10">
             <p className="text-gray-600 mb-4">Your cart is empty</p>
-            <Button onClick={() => navigate("/products")}>Browse Products</Button>
+            <Button onClick={() => navigate("/products")}>Continue Shopping</Button>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-8">
@@ -58,10 +79,34 @@ export default function CartPage() {
                       className="w-24 h-24 object-cover rounded"
                     />
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg">{item.name}</h3>
+                      <div className="flex justify-between">
+                        <h3 className="font-semibold text-lg">{item.name}</h3>
+                        <button 
+                          onClick={() => removeItem(item.id)}
+                          className="text-red-500 hover:text-red-600"
+                        >
+                          <Trash size={18} />
+                        </button>
+                      </div>
                       <p className="text-gray-600">Farmer: {item.farmer}</p>
-                      <p className="text-gray-600">Quantity: {item.quantity}</p>
-                      <p className="text-agro-primary font-semibold">₹{item.price} per kg</p>
+                      <div className="mt-2 flex justify-between items-center">
+                        <div className="flex items-center space-x-2">
+                          <button 
+                            onClick={() => updateQuantity(item.id, -1)}
+                            className="p-1 rounded-full hover:bg-gray-100"
+                          >
+                            <Minus size={16} />
+                          </button>
+                          <span className="mx-2">{item.quantity}</span>
+                          <button 
+                            onClick={() => updateQuantity(item.id, 1)}
+                            className="p-1 rounded-full hover:bg-gray-100"
+                          >
+                            <Plus size={16} />
+                          </button>
+                        </div>
+                        <p className="text-agro-primary font-semibold">₹{item.price * item.quantity}</p>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -69,7 +114,7 @@ export default function CartPage() {
             </div>
             
             <div>
-              <Card className="p-6">
+              <Card className="p-6 sticky top-4">
                 <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between">
