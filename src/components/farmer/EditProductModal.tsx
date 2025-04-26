@@ -47,7 +47,7 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
             <Label htmlFor="name">Product Name</Label>
             <Input
               id="name"
-              value={formData.name}
+              value={formData.name || ''}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
@@ -58,8 +58,8 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
               <Input
                 id="price"
                 type="number"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                value={formData.price || 0}
+                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
                 required
               />
             </div>
@@ -67,7 +67,7 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
               <Label htmlFor="unit">Unit</Label>
               <Input
                 id="unit"
-                value={formData.unit}
+                value={formData.unit || ''}
                 onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                 required
               />
@@ -79,8 +79,8 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
               <Input
                 id="quantity"
                 type="number"
-                value={formData.quantity}
-                onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                value={formData.quantity || 0}
+                onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
                 required
               />
             </div>
@@ -88,7 +88,7 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
               <Label htmlFor="category">Category</Label>
               <Input
                 id="category"
-                value={formData.category}
+                value={formData.category || ''}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
               />
@@ -98,12 +98,21 @@ export default function EditProductModal({ isOpen, onClose, onEdit, product }: E
             <Label htmlFor="description">Description</Label>
             <Input
               id="description"
-              value={formData.description}
+              value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               required
             />
           </div>
-          <div className="flex justify-end space-x-2">
+          <div className="space-y-2">
+            <Label htmlFor="image">Image URL</Label>
+            <Input
+              id="image"
+              value={formData.image || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9'}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+              required
+            />
+          </div>
+          <div className="flex justify-end space-x-2 pt-2">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>

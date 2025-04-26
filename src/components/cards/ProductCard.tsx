@@ -39,10 +39,23 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
     }
   };
 
+  // Ensure we always have a valid image URL
+  const productImage = product.image || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+
   return (
-    <div className="product-card">
+    <div className="product-card transition-all hover:shadow-lg">
       <Link to={`/products/${product.id}`}>
-        <img src={product.image} alt={product.name} className="product-card-image" />
+        <div className="h-48 overflow-hidden">
+          <img 
+            src={productImage} 
+            alt={product.name} 
+            className="w-full h-full object-cover transition-transform hover:scale-105" 
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+            }}
+          />
+        </div>
       </Link>
       <div className="p-4">
         <div className="flex justify-between items-start">

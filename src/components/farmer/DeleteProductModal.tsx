@@ -8,6 +8,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 interface DeleteProductModalProps {
   isOpen: boolean;
@@ -26,9 +27,12 @@ export default function DeleteProductModal({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Product</AlertDialogTitle>
+          <div className="flex items-center gap-2 text-red-600">
+            <Trash2 className="h-5 w-5" />
+            <AlertDialogTitle>Delete Product</AlertDialogTitle>
+          </div>
           <AlertDialogDescription>
-            Are you sure you want to delete "{productName}"? This action cannot be undone.
+            Are you sure you want to delete <span className="font-semibold">"{productName}"</span>? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

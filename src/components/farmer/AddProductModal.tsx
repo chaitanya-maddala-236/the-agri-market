@@ -62,6 +62,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
+              placeholder="e.g. Fresh Tomatoes"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -73,6 +74,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 required
+                placeholder="e.g. 80"
               />
             </div>
             <div className="space-y-2">
@@ -82,6 +84,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
                 value={formData.unit}
                 onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                 required
+                placeholder="e.g. kg"
               />
             </div>
           </div>
@@ -94,6 +97,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                 required
+                placeholder="e.g. 50"
               />
             </div>
             <div className="space-y-2">
@@ -103,6 +107,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
+                placeholder="e.g. Vegetables"
               />
             </div>
           </div>
@@ -113,9 +118,23 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               required
+              placeholder="Brief description of your product"
             />
           </div>
-          <div className="flex justify-end space-x-2">
+          <div className="space-y-2">
+            <Label htmlFor="image">Image URL</Label>
+            <Input
+              id="image"
+              value={formData.image}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+              required
+              placeholder="https://example.com/image.jpg"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Use a direct link to an image (JPG, PNG)
+            </p>
+          </div>
+          <div className="flex justify-end space-x-2 pt-2">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
