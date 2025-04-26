@@ -1,10 +1,11 @@
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Product } from "@/components/cards/ProductCard";
+import { useToast } from "@/hooks/use-toast";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface AddProductModalProps {
 }
 
 export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductModalProps) {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -25,7 +27,18 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd({
+    
+    // Ensure all required fields are filled
+    if (!formData.name || !formData.price || !formData.category) {
+      toast({
+        title: "Missing information",
+        description: "Please fill all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newProduct: Product = {
       id: Date.now().toString(),
       ...formData,
       price: Number(formData.price),
@@ -36,7 +49,15 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
         location: "Karnataka",
         rating: 4.5
       }
+    };
+    
+    onAdd(newProduct);
+    toast({
+      title: "Product added",
+      description: `${formData.name} has been added successfully`,
     });
+    
+    // Reset form
     setFormData({
       name: "",
       price: "",
@@ -48,15 +69,25 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
     });
   };
 
+  const imageOptions = [
+    { url: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9", name: "Default" },
+    { url: "https://images.unsplash.com/photo-1582562124811-c09040d0a901", name: "Tomato" },
+    { url: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07", name: "Orange" },
+    { url: "https://images.unsplash.com/photo-1500673922987-e212871fec22", name: "Vegetables" },
+  ];
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
+          <DialogDescription>
+            Fill in the details for your new farm product
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Product Name</Label>
+            <Label htmlFor="name">Product Name*</Label>
             <Input
               id="name"
               value={formData.name}
@@ -67,7 +98,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="price">Price</Label>
+              <Label htmlFor="price">Price*</Label>
               <Input
                 id="price"
                 type="number"
@@ -90,7 +121,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="quantity">Stock Quantity</Label>
+              <Label htmlFor="quantity">Stock Quantity*</Label>
               <Input
                 id="quantity"
                 type="number"
@@ -101,7 +132,7 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">Category*</Label>
               <Input
                 id="category"
                 value={formData.category}
@@ -122,17 +153,23 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="image">Image URL</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              required
-              placeholder="https://example.com/image.jpg"
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Use a direct link to an image (JPG, PNG)
-            </p>
+            <Label>Product Image</Label>
+            <div className="grid grid-cols-2 gap-2">
+              {imageOptions.map((img) => (
+                <div 
+                  key={img.url} 
+                  className={`border rounded-md overflow-hidden cursor-pointer ${formData.image === img.url ? 'ring-2 ring-agro-primary' : ''}`}
+                  onClick={() => setFormData({ ...formData, image: img.url })}
+                >
+                  <img 
+                    src={img.url} 
+                    alt={img.name} 
+                    className="w-full h-20 object-cover"
+                  />
+                  <div className="p-1 text-xs text-center">{img.name}</div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex justify-end space-x-2 pt-2">
             <Button type="button" variant="outline" onClick={onClose}>
