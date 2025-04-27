@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -43,14 +42,15 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
     }
   };
 
-  // Generate a consistent fallback image based on the product category
+  // Generate appropriate category-specific images
   const getFallbackImage = () => {
     const categoryImages: Record<string, string> = {
       'Vegetables': 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=800&q=80',
-      'Fruits': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80',
-      'Dairy': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&w=800&q=80',
-      'Grains': 'https://images.unsplash.com/photo-1466721591366-2d5fba72006d?auto=format&fit=crop&w=800&q=80',
-      'default': 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80'
+      'Fruits': 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=800&q=80',
+      'Dairy': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80',
+      'Grains': 'https://images.unsplash.com/photo-1574323347407-f5e1c5a1ec21?auto=format&fit=crop&w=800&q=80',
+      'Spices': 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80',
+      'default': 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'
     };
     
     return categoryImages[product.category] || categoryImages.default;
