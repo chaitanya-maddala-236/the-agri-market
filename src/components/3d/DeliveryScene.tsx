@@ -1,16 +1,11 @@
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
+import { OrbitControls, Environment } from '@react-three/drei';
 import { Mesh, Group } from 'three';
 
 function Truck(props: any) {
   const group = useRef<Group>(null);
-  // Using a simple model from the examples
-  const { nodes, materials } = {
-    nodes: {},
-    materials: {}
-  } as any;
   
   // Simple animation
   useFrame((state) => {
@@ -19,7 +14,7 @@ function Truck(props: any) {
   });
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props}>
       {/* Simplified truck mesh since we don't have the actual model */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[2, 1, 4]} />
@@ -74,7 +69,7 @@ export default function DeliveryScene() {
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} castShadow />
         <pointLight position={[-10, -10, -10]} />
-        <Truck position={[0, -1, 0]} scale={[0.7, 0.7, 0.7]} />
+        <Truck position={[0, -1, 0]} scale={0.7} />
         <FloatingBox />
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
           <planeGeometry args={[20, 20]} />
