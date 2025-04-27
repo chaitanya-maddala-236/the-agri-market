@@ -49,7 +49,7 @@ export default function FilterSidebar({
                 />
                 <label 
                   htmlFor={`category-${category}`}
-                  className="text-sm"
+                  className="text-sm cursor-pointer"
                 >
                   {category}
                 </label>
@@ -90,7 +90,7 @@ export default function FilterSidebar({
                 />
                 <label 
                   htmlFor={`location-${location}`}
-                  className="text-sm"
+                  className="text-sm cursor-pointer"
                 >
                   {location}
                 </label>
