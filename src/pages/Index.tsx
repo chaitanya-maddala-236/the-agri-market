@@ -5,8 +5,7 @@ import { getEnrichedProducts } from "@/data/mockData";
 import ProductCard from "@/components/cards/ProductCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { ArrowRight, Star, Package } from "lucide-react";
-import DeliveryScene from "@/components/3d/DeliveryScene";
+import { ArrowRight, Package } from "lucide-react";
 import DynamicProductShowcase from "@/components/home/DynamicProductShowcase";
 
 const Index = () => {
@@ -50,11 +49,14 @@ const Index = () => {
               </div>
             </div>
             <div className="md:w-1/2 relative">
-              {/* 3D Farm Delivery Experience */}
               <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                <DeliveryScene />
+                <img 
+                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=1200&q=80" 
+                  alt="Fresh farm produce" 
+                  className="w-full object-cover h-64"
+                />
                 <div className="p-4 bg-agro-light text-center">
-                  <p className="font-medium text-agro-dark">Experience Farm-to-Home Delivery in 3D</p>
+                  <p className="font-medium text-agro-dark">Farm-to-Home Fresh Produce</p>
                 </div>
               </div>
               <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg hidden md:block animate-bounce-slow">

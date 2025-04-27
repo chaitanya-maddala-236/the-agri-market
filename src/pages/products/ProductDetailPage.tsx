@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,8 +18,19 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
+  const getFallbackImage = (category: string) => {
+    const categoryImages: Record<string, string> = {
+      'Vegetables': 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=800&q=80',
+      'Fruits': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80',
+      'Dairy': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&w=800&q=80',
+      'Grains': 'https://images.unsplash.com/photo-1466721591366-2d5fba72006d?auto=format&fit=crop&w=800&q=80',
+      'default': 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80'
+    };
+    
+    return categoryImages[category] || categoryImages.default;
+  };
+
   useEffect(() => {
-    // In a real app, this would be an API call
     const foundProduct = products.find(p => p.id === productId);
     const foundFarmer = foundProduct ? getFarmerByProduct(foundProduct.id) : null;
     
@@ -113,17 +123,15 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Product Image */}
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <img 
-              src={product.image} 
+              src={getFallbackImage(product.category)} 
               alt={product.name} 
               className="w-full h-auto object-contain rounded-md"
               style={{ maxHeight: '400px' }}
             />
           </div>
 
-          {/* Product Details */}
           <div>
             <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
             
@@ -216,7 +224,6 @@ export default function ProductDetailPage() {
           </div>
         </div>
         
-        {/* Additional Info Tabs */}
         <div className="mt-10">
           <Tabs defaultValue="details">
             <TabsList className="grid grid-cols-3 w-full max-w-md mb-4">

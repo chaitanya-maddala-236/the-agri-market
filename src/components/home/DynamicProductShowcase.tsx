@@ -10,6 +10,19 @@ export default function DynamicProductShowcase() {
   const [products, setProducts] = useState(getEnrichedProducts().slice(0, 4));
   const { toast } = useToast();
 
+  // Generate a consistent fallback image based on the product category
+  const getFallbackImage = (category: string) => {
+    const categoryImages: Record<string, string> = {
+      'Vegetables': 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=800&q=80',
+      'Fruits': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80',
+      'Dairy': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&w=800&q=80',
+      'Grains': 'https://images.unsplash.com/photo-1466721591366-2d5fba72006d?auto=format&fit=crop&w=800&q=80',
+      'default': 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80'
+    };
+    
+    return categoryImages[category] || categoryImages.default;
+  };
+
   // Refresh products periodically to simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,17 +65,13 @@ export default function DynamicProductShowcase() {
             <Link 
               key={product.id} 
               to={`/products/${product.id}`}
-              className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+              className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow border"
             >
               <div className="aspect-square overflow-hidden">
                 <img 
-                  src={product.image} 
+                  src={getFallbackImage(product.category)} 
                   alt={product.name} 
                   className="w-full h-full object-cover transition-transform group-hover:scale-110" 
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80";
-                  }}
                 />
               </div>
               <div className="p-4">
