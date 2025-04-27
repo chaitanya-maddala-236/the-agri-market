@@ -4,7 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import { Mesh, Group } from 'three';
 
-function Truck(props: any) {
+function Truck() {
   const group = useRef<Group>(null);
   
   // Simple animation
@@ -14,7 +14,7 @@ function Truck(props: any) {
   });
 
   return (
-    <group ref={group} {...props}>
+    <group ref={group} position={[0, -1, 0]} scale={0.7}>
       {/* Simplified truck mesh since we don't have the actual model */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[2, 1, 4]} />
@@ -69,7 +69,7 @@ export default function DeliveryScene() {
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} castShadow />
         <pointLight position={[-10, -10, -10]} />
-        <Truck position={[0, -1, 0]} scale={0.7} />
+        <Truck />
         <FloatingBox />
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
           <planeGeometry args={[20, 20]} />
