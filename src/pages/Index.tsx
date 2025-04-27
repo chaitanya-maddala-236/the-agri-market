@@ -1,10 +1,13 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getEnrichedProducts } from "@/data/mockData";
 import ProductCard from "@/components/cards/ProductCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, Package } from "lucide-react";
+import DeliveryScene from "@/components/3d/DeliveryScene";
+import DynamicProductShowcase from "@/components/home/DynamicProductShowcase";
 
 const Index = () => {
   const allProducts = getEnrichedProducts();
@@ -47,21 +50,21 @@ const Index = () => {
               </div>
             </div>
             <div className="md:w-1/2 relative">
-              <div className="relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80" 
-                  alt="Farmer with fresh produce" 
-                  className="rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg hidden md:block animate-bounce-slow">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-green-100 p-2 rounded-full">
-                      <Star className="h-6 w-6 text-agro-primary" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">Direct from Farmers</p>
-                      <p className="text-sm text-gray-600">No middlemen involved</p>
-                    </div>
+              {/* 3D Farm Delivery Experience */}
+              <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                <DeliveryScene />
+                <div className="p-4 bg-agro-light text-center">
+                  <p className="font-medium text-agro-dark">Experience Farm-to-Home Delivery in 3D</p>
+                </div>
+              </div>
+              <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg hidden md:block animate-bounce-slow">
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <Package className="h-6 w-6 text-agro-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Direct from Farmers</p>
+                    <p className="text-sm text-gray-600">No middlemen involved</p>
                   </div>
                 </div>
               </div>
@@ -69,6 +72,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Dynamic Product Showcase - Shows newly added products */}
+      <DynamicProductShowcase />
 
       {/* Categories Section */}
       <section className="py-16 bg-gray-50">

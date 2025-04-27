@@ -29,9 +29,13 @@ interface ProductCardProps {
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const { toast } = useToast();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (onAddToCart) {
       onAddToCart(product);
+    } else {
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart`,
@@ -39,8 +43,19 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
     }
   };
 
-  // Ensure we always have a valid image URL
-  const productImage = product.image || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+  // Generate a consistent fallback image based on the product category
+  const getFallbackImage = () => {
+    const categoryImages: Record<string, string> = {
+      'Vegetables': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9',
+      'Fruits': 'https://images.unsplash.com/photo-1452378174528-3090a4bba7b2',
+      'Dairy': 'https://images.unsplash.com/photo-1493962853295-0fd70327578a',
+      'default': 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854'
+    };
+    
+    return categoryImages[product.category] || categoryImages.default;
+  };
+
+  const productImage = product.image || getFallbackImage();
 
   return (
     <div className="product-card transition-all hover:shadow-lg">
@@ -52,7 +67,7 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
             className="w-full h-full object-cover transition-transform hover:scale-105" 
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.src = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+              target.src = getFallbackImage();
             }}
           />
         </div>
