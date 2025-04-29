@@ -54,8 +54,8 @@ export default function FarmersPage() {
   ];
 
   const filteredFarmers = farmers.filter(farmer => {
-    const matchesLocation = !locationFilter || farmer.location === locationFilter;
-    const matchesLandSize = !landSizeFilter || farmer.landSize === landSizeFilter;
+    const matchesLocation = !locationFilter || locationFilter === "all" || farmer.location === locationFilter;
+    const matchesLandSize = !landSizeFilter || landSizeFilter === "all" || farmer.landSize === landSizeFilter;
     const matchesSearch = !searchQuery || 
       farmer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       farmer.specialties.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -90,7 +90,7 @@ export default function FarmersPage() {
                   <SelectValue placeholder="Select location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Locations</SelectItem>
+                  <SelectItem value="all">All Locations</SelectItem>
                   <SelectItem value="Punjab">Punjab</SelectItem>
                   <SelectItem value="Maharashtra">Maharashtra</SelectItem>
                   <SelectItem value="Gujarat">Gujarat</SelectItem>
@@ -106,7 +106,7 @@ export default function FarmersPage() {
                   <SelectValue placeholder="Select land size" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Sizes</SelectItem>
+                  <SelectItem value="all">All Sizes</SelectItem>
                   <SelectItem value="30 acres">30 acres</SelectItem>
                   <SelectItem value="50 acres">50 acres</SelectItem>
                   <SelectItem value="75 acres">75 acres</SelectItem>
