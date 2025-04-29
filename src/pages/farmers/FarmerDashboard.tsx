@@ -1,20 +1,16 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getEnrichedProducts } from "@/data/mockData";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Plus, Edit, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Product } from "@/components/cards/ProductCard";
 import AddProductModal from "@/components/farmer/AddProductModal";
 import EditProductModal from "@/components/farmer/EditProductModal";
 import DeleteProductModal from "@/components/farmer/DeleteProductModal";
-import SalesAnalytics from "@/components/farmer/SalesAnalytics";
-import SeasonalCalendar from "@/components/farmer/SeasonalCalendar";
-import ProductReviews from "@/components/farmer/ProductReviews";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Product } from "@/components/cards/ProductCard";
+import { getEnrichedProducts } from "@/data/utils";
+import Tabs, { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function FarmerDashboard() {
   const { toast } = useToast();

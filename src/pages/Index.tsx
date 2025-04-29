@@ -1,7 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { getEnrichedProducts } from "@/data/mockData";
+import { getEnrichedProducts } from "@/data/utils";
 import ProductCard from "@/components/cards/ProductCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";

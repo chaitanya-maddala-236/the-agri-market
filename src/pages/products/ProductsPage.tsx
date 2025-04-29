@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { getEnrichedProducts } from "@/data/mockData";
+import { getEnrichedProducts } from "@/data/utils";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Filter } from "lucide-react";
@@ -23,8 +23,8 @@ export default function ProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [cartItems, setCartItems] = useState<string[]>([]);
   
-  const allCategories = Array.from(new Set(products.map(p => p.category)));
-  const allLocations = Array.from(new Set(products.map(p => p.farmer?.location || "")));
+  const allCategories = Array.from(new Set(products.map(p => p.category))) as string[];
+  const allLocations = Array.from(new Set(products.map(p => p.farmer?.location || ""))) as string[];
   const maxPrice = Math.max(...products.map(p => p.price));
   
   const [filters, setFilters] = useState<FilterState>({

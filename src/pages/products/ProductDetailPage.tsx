@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { products, getFarmerByProduct } from "@/data/mockData";
+import { products } from "@/data/products";
+import { getFarmerByProduct } from "@/data/utils";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Star, ShoppingCart, Minus, Plus, ChevronLeft } from "lucide-react";
