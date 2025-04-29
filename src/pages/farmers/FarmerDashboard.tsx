@@ -11,6 +11,10 @@ import { Product } from "@/components/cards/ProductCard";
 import AddProductModal from "@/components/farmer/AddProductModal";
 import EditProductModal from "@/components/farmer/EditProductModal";
 import DeleteProductModal from "@/components/farmer/DeleteProductModal";
+import SalesAnalytics from "@/components/farmer/SalesAnalytics";
+import SeasonalCalendar from "@/components/farmer/SeasonalCalendar";
+import ProductReviews from "@/components/farmer/ProductReviews";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function FarmerDashboard() {
   const { toast } = useToast();
@@ -87,98 +91,135 @@ export default function FarmerDashboard() {
             </Button>
           </div>
 
-          <div className="space-y-8">
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-agro-light rounded-lg p-6">
-                <h3 className="text-lg font-medium mb-2">Total Products</h3>
-                <p className="text-3xl font-bold">{products.length}</p>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="text-lg font-medium mb-2">Recent Orders</h3>
-                <p className="text-3xl font-bold">12</p>
-              </div>
-              <div className="bg-amber-50 rounded-lg p-6">
-                <h3 className="text-lg font-medium mb-2">Total Revenue</h3>
-                <p className="text-3xl font-bold">₹24,500</p>
-              </div>
-            </div>
+          <Tabs defaultValue="products">
+            <TabsList className="mb-6">
+              <TabsTrigger value="products">Products</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="calendar">Seasonal Calendar</TabsTrigger>
+              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="products">
+              <div className="space-y-8">
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-agro-light rounded-lg p-6">
+                    <h3 className="text-lg font-medium mb-2">Total Products</h3>
+                    <p className="text-3xl font-bold">{products.length}</p>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-6">
+                    <h3 className="text-lg font-medium mb-2">Recent Orders</h3>
+                    <p className="text-3xl font-bold">12</p>
+                  </div>
+                  <div className="bg-amber-50 rounded-lg p-6">
+                    <h3 className="text-lg font-medium mb-2">Total Revenue</h3>
+                    <p className="text-3xl font-bold">₹24,500</p>
+                  </div>
+                </div>
 
-            {/* Product Table */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4">Your Products</h2>
-              
-              <div className="border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[80px]">Image</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead className="text-right">Price</TableHead>
-                      <TableHead className="text-right">Stock</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {products.length > 0 ? (
-                      products.map((product) => (
-                        <TableRow key={product.id}>
-                          <TableCell>
-                            <img 
-                              src={product.image || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"} 
-                              alt={product.name} 
-                              className="w-14 h-14 object-cover rounded-md"
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">{product.name}</TableCell>
-                          <TableCell>{product.category}</TableCell>
-                          <TableCell className="text-right">₹{product.price} / {product.unit}</TableCell>
-                          <TableCell className="text-right">
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              product.quantity > 10 
-                                ? "bg-green-100 text-green-800" 
-                                : product.quantity > 0 
-                                  ? "bg-amber-100 text-amber-800" 
-                                  : "bg-red-100 text-red-800"
-                            }`}>
-                              {product.quantity}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => openEditModal(product)}
-                                className="h-8 w-8 p-0"
-                              >
-                                <Edit size={16} />
-                              </Button>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => openDeleteModal(product)}
-                                className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
-                              >
-                                <Trash2 size={16} />
-                              </Button>
-                            </div>
-                          </TableCell>
+                {/* Product Table */}
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Your Products</h2>
+                  
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[80px]">Image</TableHead>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Category</TableHead>
+                          <TableHead className="text-right">Price</TableHead>
+                          <TableHead className="text-right">Stock</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8 text-gray-500">
-                          No products found. Click "Add Product" to add your first product.
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                      </TableHeader>
+                      <TableBody>
+                        {products.length > 0 ? (
+                          products.map((product) => (
+                            <TableRow key={product.id}>
+                              <TableCell>
+                                <img 
+                                  src={product.image || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"} 
+                                  alt={product.name} 
+                                  className="w-14 h-14 object-cover rounded-md"
+                                />
+                              </TableCell>
+                              <TableCell className="font-medium">{product.name}</TableCell>
+                              <TableCell>{product.category}</TableCell>
+                              <TableCell className="text-right">₹{product.price} / {product.unit}</TableCell>
+                              <TableCell className="text-right">
+                                <span className={`px-2 py-1 rounded-full text-xs ${
+                                  product.quantity > 10 
+                                    ? "bg-green-100 text-green-800" 
+                                    : product.quantity > 0 
+                                      ? "bg-amber-100 text-amber-800" 
+                                      : "bg-red-100 text-red-800"
+                                }`}>
+                                  {product.quantity}
+                                </span>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex justify-end gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    onClick={() => openEditModal(product)}
+                                    className="h-8 w-8 p-0"
+                                  >
+                                    <Edit size={16} />
+                                  </Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    onClick={() => openDeleteModal(product)}
+                                    className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                  >
+                                    <Trash2 size={16} />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                              No products found. Click "Add Product" to add your first product.
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </TabsContent>
+            
+            <TabsContent value="analytics">
+              <SalesAnalytics />
+            </TabsContent>
+            
+            <TabsContent value="calendar">
+              <SeasonalCalendar />
+            </TabsContent>
+            
+            <TabsContent value="reviews">
+              <div className="space-y-6">
+                {products.length > 0 && products.slice(0, 2).map(product => (
+                  <div key={product.id} className="mb-6">
+                    <div className="flex items-center mb-3">
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="w-12 h-12 rounded-md mr-3 object-cover"
+                      />
+                      <h3 className="font-semibold">{product.name}</h3>
+                    </div>
+                    <ProductReviews productId={product.id} />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       
