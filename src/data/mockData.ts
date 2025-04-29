@@ -1,4 +1,3 @@
-
 export interface FarmerProfile {
   id: string;
   name: string;
@@ -161,7 +160,7 @@ export const products: Product[] = [
     name: "Organic Tomatoes",
     price: 40,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1592924357229-f9f771ed79b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    image: "/lovable-uploads/ec802808-e3eb-42a1-80f6-2d4f53447cfc.png",
     farmerId: "f1",
     category: "Vegetables",
     quantity: 50,
@@ -245,7 +244,7 @@ export const products: Product[] = [
     name: "Organic Ghee",
     price: 800,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1612487439139-c2992322875e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    image: "/lovable-uploads/b81f204f-ada3-485d-a2f5-5900bd02c74b.png",
     farmerId: "f3",
     category: "Dairy",
     quantity: 10,
@@ -257,7 +256,7 @@ export const products: Product[] = [
     name: "Dragon Fruit",
     price: 180,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1527325678457-0daabeaf3ce1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    image: "/lovable-uploads/0d1295f0-f238-4a13-9642-86cecbec9a3b.png",
     farmerId: "f4",
     category: "Fruits",
     quantity: 25,
@@ -293,7 +292,7 @@ export const products: Product[] = [
     name: "Fresh Green Chillies",
     price: 60,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1630371896631-99c1f79a0e60?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    image: "/lovable-uploads/82e81e16-1fb0-4425-8add-d58ab4021635.png",
     farmerId: "f5",
     category: "Vegetables",
     quantity: 20,
@@ -305,7 +304,7 @@ export const products: Product[] = [
     name: "Organic Okra",
     price: 70,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1626920369973-b8dcba2aef57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    image: "/lovable-uploads/296d254a-0cd8-4a55-ae0f-db5097623300.png",
     farmerId: "f5",
     category: "Vegetables",
     quantity: 35,
