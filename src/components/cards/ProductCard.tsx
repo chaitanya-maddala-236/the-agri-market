@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,13 +29,9 @@ interface ProductCardProps {
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const { toast } = useToast();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
+  const handleAddToCart = () => {
     if (onAddToCart) {
       onAddToCart(product);
-    } else {
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart`,
@@ -42,28 +39,21 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
     }
   };
 
-  // Generate appropriate category-specific images
-  const getFallbackImage = () => {
-    const categoryImages: Record<string, string> = {
-      'Vegetables': 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=800&q=80',
-      'Fruits': 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=800&q=80',
-      'Dairy': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80',
-      'Grains': 'https://images.unsplash.com/photo-1574323347407-f5e1c5a1ec21?auto=format&fit=crop&w=800&q=80',
-      'Spices': 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80',
-      'default': 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'
-    };
-    
-    return categoryImages[product.category] || categoryImages.default;
-  };
+  // Ensure we always have a valid image URL
+  const productImage = product.image || "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
 
   return (
-    <div className="product-card transition-all hover:shadow-lg border rounded-lg overflow-hidden bg-white">
+    <div className="product-card transition-all hover:shadow-lg">
       <Link to={`/products/${product.id}`}>
         <div className="h-48 overflow-hidden">
           <img 
-            src={getFallbackImage()} 
+            src={productImage} 
             alt={product.name} 
             className="w-full h-full object-cover transition-transform hover:scale-105" 
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+            }}
           />
         </div>
       </Link>

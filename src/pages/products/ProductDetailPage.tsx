@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,20 +19,8 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
-  const getFallbackImage = (category: string) => {
-    const categoryImages: Record<string, string> = {
-      'Vegetables': 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=800&q=80',
-      'Fruits': 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=800&q=80',
-      'Dairy': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80',
-      'Grains': 'https://images.unsplash.com/photo-1574323347407-f5e1c5a1ec21?auto=format&fit=crop&w=800&q=80',
-      'Spices': 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80',
-      'default': 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'
-    };
-    
-    return categoryImages[category] || categoryImages.default;
-  };
-
   useEffect(() => {
+    // In a real app, this would be an API call
     const foundProduct = products.find(p => p.id === productId);
     const foundFarmer = foundProduct ? getFarmerByProduct(foundProduct.id) : null;
     
@@ -124,15 +113,17 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Product Image */}
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <img 
-              src={getFallbackImage(product.category)} 
+              src={product.image} 
               alt={product.name} 
               className="w-full h-auto object-contain rounded-md"
               style={{ maxHeight: '400px' }}
             />
           </div>
 
+          {/* Product Details */}
           <div>
             <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
             
@@ -225,6 +216,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
         
+        {/* Additional Info Tabs */}
         <div className="mt-10">
           <Tabs defaultValue="details">
             <TabsList className="grid grid-cols-3 w-full max-w-md mb-4">

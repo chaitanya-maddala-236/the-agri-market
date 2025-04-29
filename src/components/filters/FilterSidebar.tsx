@@ -2,7 +2,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface FilterSidebarProps {
   categories: string[];
@@ -36,27 +35,25 @@ export default function FilterSidebar({
     <div className="bg-white p-4 rounded-lg border shadow-sm">
       <div className="mb-4">
         <h3 className="font-medium mb-2">Categories</h3>
-        <ScrollArea className="h-[150px] pr-4">
-          <div className="space-y-2">
-            {categories.map(category => (
-              <div key={category} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`category-${category}`}
-                  checked={filters.categories.includes(category)}
-                  onCheckedChange={(checked) => 
-                    onCategoryChange(category, checked === true)
-                  }
-                />
-                <label 
-                  htmlFor={`category-${category}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {category}
-                </label>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+        <div className="space-y-2">
+          {categories.map(category => (
+            <div key={category} className="flex items-center space-x-2">
+              <Checkbox
+                id={`category-${category}`}
+                checked={filters.categories.includes(category)}
+                onCheckedChange={(checked) => 
+                  onCategoryChange(category, checked as boolean)
+                }
+              />
+              <label 
+                htmlFor={`category-${category}`}
+                className="text-sm"
+              >
+                {category}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
       
       <div className="mb-4">
@@ -65,7 +62,7 @@ export default function FilterSidebar({
           defaultValue={[0, maxPrice]}
           max={maxPrice}
           step={10}
-          value={[filters.priceRange[0], filters.priceRange[1]]}
+          value={filters.priceRange}
           onValueChange={onPriceChange}
           className="mb-2"
         />
@@ -77,27 +74,25 @@ export default function FilterSidebar({
       
       <div className="mb-4">
         <h3 className="font-medium mb-2">Location</h3>
-        <ScrollArea className="h-[120px] pr-4">
-          <div className="space-y-2">
-            {locations.map(location => (
-              <div key={location} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`location-${location}`}
-                  checked={filters.locations.includes(location)}
-                  onCheckedChange={(checked) => 
-                    onLocationChange(location, checked === true)
-                  }
-                />
-                <label 
-                  htmlFor={`location-${location}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {location}
-                </label>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+        <div className="space-y-2">
+          {locations.map(location => (
+            <div key={location} className="flex items-center space-x-2">
+              <Checkbox
+                id={`location-${location}`}
+                checked={filters.locations.includes(location)}
+                onCheckedChange={(checked) => 
+                  onLocationChange(location, checked as boolean)
+                }
+              />
+              <label 
+                htmlFor={`location-${location}`}
+                className="text-sm"
+              >
+                {location}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
       
       <div className="mb-4">
@@ -107,7 +102,7 @@ export default function FilterSidebar({
           max={5}
           step={0.5}
           value={[filters.minRating]}
-          onValueChange={onRatingChange}
+          onValueChange={(value) => onRatingChange(value)}
           className="mb-2"
         />
         <div className="text-sm">

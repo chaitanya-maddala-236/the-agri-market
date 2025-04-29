@@ -8,7 +8,6 @@ import { Filter } from "lucide-react";
 import SearchBar from "@/components/search/SearchBar";
 import FilterSidebar from "@/components/filters/FilterSidebar";
 import ProductGrid from "@/components/products/ProductGrid";
-import { useToast } from "@/hooks/use-toast";
 
 interface FilterState {
   categories: string[];
@@ -23,7 +22,6 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [cartItems, setCartItems] = useState<string[]>([]);
-  const { toast } = useToast();
   
   const allCategories = Array.from(new Set(products.map(p => p.category)));
   const allLocations = Array.from(new Set(products.map(p => p.farmer?.location || "")));
@@ -75,12 +73,7 @@ export default function ProductsPage() {
   const handleAddToCart = (product: any) => {
     setCartItems(prev => {
       if (!prev.includes(product.id)) {
-        const newCart = [...prev, product.id];
-        toast({
-          title: "Added to cart",
-          description: `${product.name} has been added to your cart`,
-        });
-        return newCart;
+        return [...prev, product.id];
       }
       return prev;
     });
@@ -105,21 +98,17 @@ export default function ProductsPage() {
   };
 
   const handlePriceChange = (value: number[]) => {
-    if (value.length >= 2) {
-      setFilters(prev => ({
-        ...prev,
-        priceRange: [value[0], value[1]]
-      }));
-    }
+    setFilters(prev => ({
+      ...prev,
+      priceRange: [value[0], value[1]]
+    }));
   };
 
   const handleRatingChange = (value: number[]) => {
-    if (value.length > 0) {
-      setFilters(prev => ({
-        ...prev,
-        minRating: value[0]
-      }));
-    }
+    setFilters(prev => ({
+      ...prev,
+      minRating: value[0]
+    }));
   };
 
   const handleSearchChange = (value: string) => {
@@ -205,11 +194,6 @@ export default function ProductsPage() {
           
           {/* Product Grid */}
           <div className="flex-1">
-            <div className="hidden lg:flex mb-4">
-              <div className="flex-1">
-                <SearchBar value={filters.search} onChange={handleSearchChange} />
-              </div>
-            </div>
             <ProductGrid products={filteredProducts} onAddToCart={handleAddToCart} />
           </div>
         </div>
