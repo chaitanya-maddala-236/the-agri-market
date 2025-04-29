@@ -1,3 +1,4 @@
+
 export interface FarmerProfile {
   id: string;
   name: string;
@@ -244,7 +245,7 @@ export const products: Product[] = [
     name: "Organic Ghee",
     price: 800,
     unit: "kg",
-    image: "/lovable-uploads/b81f204f-ada3-485d-a2f5-5900bd02c74b.png",
+    image: "/lovable-uploads/296d254a-0cd8-4a55-ae0f-db5097623300.png", // Updated ghee image
     farmerId: "f3",
     category: "Dairy",
     quantity: 10,
@@ -304,7 +305,7 @@ export const products: Product[] = [
     name: "Organic Okra",
     price: 70,
     unit: "kg",
-    image: "/lovable-uploads/296d254a-0cd8-4a55-ae0f-db5097623300.png",
+    image: "/lovable-uploads/b81f204f-ada3-485d-a2f5-5900bd02c74b.png", // Updated okra image
     farmerId: "f5",
     category: "Vegetables",
     quantity: 35,
