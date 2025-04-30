@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Mic, MicOff, Headphones, HeadphonesOff } from "lucide-react";
+import { Mic, MicOff, Headphones, HeadphoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,6 +15,41 @@ import { useToast } from "@/hooks/use-toast";
 interface VoiceAssistantProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+// Define the SpeechRecognition type to avoid TypeScript errors
+interface SpeechRecognitionEvent extends Event {
+  results: {
+    [index: number]: {
+      [index: number]: {
+        transcript: string;
+      };
+    };
+  };
+  error: any;
+}
+
+interface SpeechRecognition extends EventTarget {
+  lang: string;
+  continuous: boolean;
+  start: () => void;
+  stop: () => void;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: any) => void) | null;
+  onend: (() => void) | null;
+}
+
+// Define the SpeechRecognition constructor
+interface SpeechRecognitionConstructor {
+  new(): SpeechRecognition;
+}
+
+// Add the global speech recognition interfaces
+declare global {
+  interface Window {
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  }
 }
 
 export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps) {
