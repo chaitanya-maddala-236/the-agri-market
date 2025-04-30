@@ -1,16 +1,21 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Headphones } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AddProductModal from "@/components/farmer/AddProductModal";
 import EditProductModal from "@/components/farmer/EditProductModal";
 import DeleteProductModal from "@/components/farmer/DeleteProductModal";
+import VoiceAssistant from "@/components/farmer/VoiceAssistant";
 import { Product } from "@/components/cards/ProductCard";
 import { getEnrichedProducts } from "@/data/utils";
-import Tabs, { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProductReviews from "@/components/farmer/ProductReviews";
+import SalesAnalytics from "@/components/farmer/SalesAnalytics";
+import SeasonalCalendar from "@/components/farmer/SeasonalCalendar";
 
 export default function FarmerDashboard() {
   const { toast } = useToast();
@@ -18,6 +23,7 @@ export default function FarmerDashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Initialize with dummy farmer products
@@ -78,13 +84,23 @@ export default function FarmerDashboard() {
               <h1 className="text-3xl font-bold">Farmer Dashboard</h1>
               <p className="text-gray-600 mt-1">Manage your products and track sales</p>
             </div>
-            <Button 
-              onClick={() => setIsAddModalOpen(true)} 
-              className="bg-agro-primary hover:bg-agro-dark flex items-center gap-2"
-            >
-              <Plus size={18} />
-              Add Product
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => setIsAssistantOpen(true)}
+                className="bg-blue-500 hover:bg-blue-600 flex items-center gap-2"
+                title="Voice Assistant"
+              >
+                <Headphones size={18} />
+                Assistant
+              </Button>
+              <Button 
+                onClick={() => setIsAddModalOpen(true)} 
+                className="bg-agro-primary hover:bg-agro-dark flex items-center gap-2"
+              >
+                <Plus size={18} />
+                Add Product
+              </Button>
+            </div>
           </div>
 
           <Tabs defaultValue="products">
@@ -240,6 +256,11 @@ export default function FarmerDashboard() {
         onClose={() => setIsDeleteModalOpen(false)} 
         onDelete={handleDeleteProduct} 
         productName={selectedProduct?.name} 
+      />
+
+      <VoiceAssistant 
+        isOpen={isAssistantOpen}
+        onClose={() => setIsAssistantOpen(false)}
       />
     </div>
   );
