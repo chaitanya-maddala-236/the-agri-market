@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Mic, MicOff, Headphones } from "lucide-react";
+import { Mic, MicOff, Headphones, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -66,6 +66,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [audioVolume, setAudioVolume] = useState(0.8); // Default volume at 80%
   const { toast } = useToast();
   const { t, language } = useLanguage();
   
@@ -227,6 +228,17 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
     }
   };
 
+  const handleVolumeChange = (newVolume: number) => {
+    setAudioVolume(newVolume);
+    // If audio is currently playing, update its volume
+    const audioElements = document.getElementsByTagName('audio');
+    if (audioElements.length > 0) {
+      for (let i = 0; i < audioElements.length; i++) {
+        audioElements[i].volume = newVolume;
+      }
+    }
+  };
+
   const speakResponse = async (text: string) => {
     try {
       setIsLoading(true);
@@ -263,6 +275,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
         const audioBlob = await response.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
+        audio.volume = audioVolume;
         
         setIsPlaying(true);
         
@@ -327,16 +340,24 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-md">
+          {/* Enhanced UI for voice assistant */}
+          <div className="p-4 bg-gradient-to-br from-agro-light to-white rounded-lg shadow-sm border border-agro-primary/20">
             {transcript ? (
               <>
-                <p className="text-sm font-medium mb-2">{t('voiceAssistant.youAsked')}</p>
-                <p className="text-gray-700 mb-4">{transcript}</p>
+                <p className="text-sm font-medium mb-2 text-agro-dark">{t('voiceAssistant.youAsked')}</p>
+                <p className="text-gray-700 mb-4 bg-white/80 p-3 rounded-md">{transcript}</p>
               </>
             ) : (
-              <p className="text-gray-500 italic mb-4">
+              <p className="text-gray-500 italic mb-4 text-center">
                 {isListening 
-                  ? t('voiceAssistant.listening') 
+                  ? <span className="flex items-center justify-center gap-2">
+                      <span className="animate-pulse">{t('voiceAssistant.listening')}</span>
+                      <span className="flex gap-1">
+                        <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
+                        <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
+                        <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
+                      </span>
+                    </span>
                   : t('voiceAssistant.micPrompt')
                 }
               </p>
@@ -344,12 +365,33 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
 
             {response && (
               <>
-                <p className="text-sm font-medium mb-2">{t('voiceAssistant.response')}</p>
-                <div className="bg-white p-3 rounded border whitespace-pre-line text-gray-800">
+                <p className="text-sm font-medium mb-2 text-agro-dark">{t('voiceAssistant.response')}</p>
+                <div className="bg-white p-4 rounded-md border border-agro-primary/10 shadow-sm whitespace-pre-line text-gray-800 max-h-56 overflow-y-auto">
                   {response}
                 </div>
               </>
             )}
+          </div>
+
+          {/* Volume control slider */}
+          <div className="flex items-center gap-3 px-2">
+            {audioVolume === 0 ? (
+              <VolumeX className="h-5 w-5 text-gray-500" />
+            ) : (
+              <Volume2 className="h-5 w-5 text-agro-primary" />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={audioVolume}
+              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-agro-primary"
+            />
+            <span className="text-sm text-gray-600 w-8 text-right">
+              {Math.round(audioVolume * 100)}%
+            </span>
           </div>
 
           {currentStep > 0 && (
@@ -361,27 +403,36 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
             />
           )}
 
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-2">
             <Button
               onClick={toggleListening}
-              className={`w-16 h-16 rounded-full flex items-center justify-center ${
+              className={`w-20 h-20 rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-200 ${
                 isListening
-                  ? "bg-red-500 hover:bg-red-600"
-                  : "bg-green-500 hover:bg-green-600"
-              }`}
+                  ? "bg-red-500 hover:bg-red-600 active:scale-95"
+                  : "bg-agro-primary hover:bg-agro-dark active:scale-95"
+              } ${isLoading || isPlaying ? "opacity-75 cursor-not-allowed" : ""}`}
               disabled={isLoading || isPlaying}
             >
               {isListening ? (
-                <MicOff className="h-8 w-8" />
+                <MicOff className="h-10 w-10" />
               ) : (
-                <Mic className="h-8 w-8" />
+                <Mic className="h-10 w-10" />
               )}
             </Button>
           </div>
 
           <div className="text-center text-sm text-gray-500">
-            {isListening ? t('voiceAssistant.tapToStop') : t('voiceAssistant.tapToStart')}
-            {(isLoading || isPlaying) && <span className="block mt-1 animate-pulse">{t('voiceAssistant.speaking')}</span>}
+            <p>{isListening ? t('voiceAssistant.tapToStop') : t('voiceAssistant.tapToStart')}</p>
+            {(isLoading || isPlaying) && (
+              <p className="mt-1 flex items-center justify-center gap-2 text-agro-primary">
+                <span>{t('voiceAssistant.speaking')}</span>
+                <span className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-agro-primary rounded-full animate-pulse" style={{ animationDelay: "0ms" }}></span>
+                  <span className="w-1.5 h-1.5 bg-agro-primary rounded-full animate-pulse" style={{ animationDelay: "150ms" }}></span>
+                  <span className="w-1.5 h-1.5 bg-agro-primary rounded-full animate-pulse" style={{ animationDelay: "300ms" }}></span>
+                </span>
+              </p>
+            )}
           </div>
         </div>
       </DialogContent>
