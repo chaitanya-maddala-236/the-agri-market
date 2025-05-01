@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProductUploadStepsProps {
   currentStep: number;
@@ -15,28 +16,28 @@ interface ProductUploadStepsProps {
 
 export const productUploadStepsData = [
   {
-    title: "Step 1: Navigate to Add Product",
-    description: "Click on the 'Add Product' button at the top right of your dashboard"
+    titleKey: "productUpload.step1.title",
+    descriptionKey: "productUpload.step1.description"
   },
   {
-    title: "Step 2: Fill Basic Product Details",
-    description: "Enter your product name, price per unit, and select the appropriate unit (kg, piece, etc.)"
+    titleKey: "productUpload.step2.title",
+    descriptionKey: "productUpload.step2.description"
   },
   {
-    title: "Step 3: Add Stock Information",
-    description: "Enter the quantity available and select the product category"
+    titleKey: "productUpload.step3.title",
+    descriptionKey: "productUpload.step3.description"
   },
   {
-    title: "Step 4: Add Description",
-    description: "Write a clear, detailed description of your product including quality, freshness, and other relevant details"
+    titleKey: "productUpload.step4.title",
+    descriptionKey: "productUpload.step4.description"
   },
   {
-    title: "Step 5: Add Product Image",
-    description: "Add an image URL for your product - high quality images increase sales"
+    titleKey: "productUpload.step5.title",
+    descriptionKey: "productUpload.step5.description"
   },
   {
-    title: "Step 6: Submit Product",
-    description: "Review all information and click the 'Add Product' button to list your product"
+    titleKey: "productUpload.step6.title",
+    descriptionKey: "productUpload.step6.description"
   }
 ];
 
@@ -46,6 +47,7 @@ export default function ProductUploadSteps({
   steps,
   onStepChange 
 }: ProductUploadStepsProps) {
+  const { t } = useLanguage();
   
   const handlePrevStep = () => {
     if (currentStep > 1) {
@@ -79,7 +81,9 @@ export default function ProductUploadSteps({
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Step {currentStep} of {steps.length}</span>
+          <span className="text-sm font-medium">
+            {t('productUpload.step')} {currentStep} {t('productUpload.of')} {steps.length}
+          </span>
           <div className="flex gap-2">
             <Button 
               size="sm" 
@@ -87,14 +91,14 @@ export default function ProductUploadSteps({
               onClick={handlePrevStep}
               disabled={currentStep <= 1}
             >
-              Previous
+              {t('productUpload.previous')}
             </Button>
             <Button 
               size="sm" 
               onClick={handleNextStep}
               disabled={currentStep >= steps.length}
             >
-              Next
+              {t('productUpload.next')}
             </Button>
           </div>
         </div>

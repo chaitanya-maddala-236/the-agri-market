@@ -9,9 +9,9 @@ import {
   X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface NavbarProps {
   isLoggedIn?: boolean;
@@ -22,6 +22,7 @@ interface NavbarProps {
 export default function Navbar({ isLoggedIn = false, userType = null, cartItemCount = 0 }: NavbarProps) {
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -44,14 +45,14 @@ export default function Navbar({ isLoggedIn = false, userType = null, cartItemCo
 
           {/* Navigation Links */}
           <nav className="flex items-center space-x-4">
-            <Link to="/products" className="text-gray-700 hover:text-agro-primary transition-colors">Products</Link>
-            <Link to="/farmers" className="text-gray-700 hover:text-agro-primary transition-colors">Farmers</Link>
-            <Link to="/blog" className="text-gray-700 hover:text-agro-primary transition-colors">Blog</Link>
+            <Link to="/products" className="text-gray-700 hover:text-agro-primary transition-colors">{t('nav.products')}</Link>
+            <Link to="/farmers" className="text-gray-700 hover:text-agro-primary transition-colors">{t('nav.farmers')}</Link>
+            <Link to="/blog" className="text-gray-700 hover:text-agro-primary transition-colors">{t('nav.blog')}</Link>
             
             {/* User Account Link */}
             <Link to={getDashboardLink()} className="flex items-center text-gray-700 hover:text-agro-primary transition-colors">
               <User size={20} className="mr-1" />
-              {isLoggedIn ? (userType === "farmer" ? "My Farm" : "My Account") : "Login"}
+              {isLoggedIn ? (userType === "farmer" ? t('nav.myFarm') : t('nav.myAccount')) : t('nav.login')}
             </Link>
             
             {/* Professional Cart Icon */}
@@ -87,17 +88,17 @@ export default function Navbar({ isLoggedIn = false, userType = null, cartItemCo
             <ul className="space-y-2">
               <li>
                 <Link to="/products" className="block px-2 py-2 text-gray-700 hover:bg-agro-light rounded" onClick={toggleMobileMenu}>
-                  Products
+                  {t('nav.products')}
                 </Link>
               </li>
               <li>
                 <Link to="/farmers" className="block px-2 py-2 text-gray-700 hover:bg-agro-light rounded" onClick={toggleMobileMenu}>
-                  Farmers
+                  {t('nav.farmers')}
                 </Link>
               </li>
               <li>
                 <Link to="/blog" className="block px-2 py-2 text-gray-700 hover:bg-agro-light rounded" onClick={toggleMobileMenu}>
-                  Blog
+                  {t('nav.blog')}
                 </Link>
               </li>
               <li>
@@ -106,7 +107,7 @@ export default function Navbar({ isLoggedIn = false, userType = null, cartItemCo
                   className="block px-2 py-2 text-gray-700 hover:bg-agro-light rounded"
                   onClick={toggleMobileMenu}
                 >
-                  {isLoggedIn ? (userType === "farmer" ? "My Farm" : "My Account") : "Login"}
+                  {isLoggedIn ? (userType === "farmer" ? t('nav.myFarm') : t('nav.myAccount')) : t('nav.login')}
                 </Link>
               </li>
             </ul>
@@ -116,4 +117,3 @@ export default function Navbar({ isLoggedIn = false, userType = null, cartItemCo
     </header>
   );
 }
-
