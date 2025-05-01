@@ -9,11 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import ProductUploadSteps, { productUploadStepsData, getTranslatedSteps } from "./ProductUploadSteps";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useTTS } from "@11labs/react";
+import { useConversation } from "@11labs/react";
 
 interface VoiceAssistantProps {
   isOpen: boolean;
@@ -65,14 +64,18 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
   const [transcript, setTranscript] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { t, language } = useLanguage();
   
-  // Initialize ElevenLabs TTS
-  const { speak, stop, isLoading, isPlaying } = useTTS({
-    apiKey: ELEVENLABS_API_KEY,
-    voiceId: ELEVENLABS_VOICE_ID,
-    model: "eleven_monolingual_v1"
+  // Initialize ElevenLabs conversation
+  const conversation = useConversation({
+    overrides: {
+      tts: {
+        voiceId: ELEVENLABS_VOICE_ID,
+      },
+    },
   });
 
   // Get translated steps
@@ -224,24 +227,87 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
     }
   };
 
-  const speakResponse = (text: string) => {
-    // Stop any currently playing audio first
-    if (isPlaying) {
-      stop();
+  const speakResponse = async (text: string) => {
+    try {
+      setIsLoading(true);
+      
+      // First, try to use the conversation API for speech
+      try {
+        // Stop any currently playing audio if needed
+        if (conversation.isSpeaking) {
+          conversation.setVolume({ volume: 0 });
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        // Use fetch to directly call ElevenLabs API since useConversation doesn't expose simple TTS
+        const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + ELEVENLABS_VOICE_ID, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': ELEVENLABS_API_KEY
+          },
+          body: JSON.stringify({
+            text: text,
+            model_id: "eleven_monolingual_v1",
+            voice_settings: {
+              stability: 0.5,
+              similarity_boost: 0.75
+            }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate speech');
+        }
+
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        setIsPlaying(true);
+        
+        audio.onended = () => {
+          setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+          setIsLoading(false);
+        };
+        
+        audio.onerror = () => {
+          setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+          setIsLoading(false);
+          toast({
+            title: "Error",
+            description: "Failed to play audio response",
+            variant: "destructive",
+          });
+        };
+        
+        await audio.play();
+      } catch (error) {
+        console.error("Error using ElevenLabs API:", error);
+        setIsLoading(false);
+        toast({
+          title: "Voice Error",
+          description: "Failed to generate speech. Check your API key or connection.",
+          variant: "destructive",
+        });
+      }
+    } catch (finalError) {
+      console.error("Final error in speech generation:", finalError);
+      setIsLoading(false);
     }
-    
-    // Use ElevenLabs API for text-to-speech
-    speak(text);
   };
 
   // Cleanup on unmount or dialog close
   useEffect(() => {
     return () => {
-      if (isPlaying) {
-        stop();
+      setIsPlaying(false);
+      if (conversation && conversation.status === "connected") {
+        conversation.endSession();
       }
     };
-  }, [isPlaying, stop]);
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
