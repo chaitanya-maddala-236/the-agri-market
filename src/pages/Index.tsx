@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getEnrichedProducts } from "@/data/utils";
@@ -39,7 +40,7 @@ const Index = () => {
             <div className="md:w-1/2">
               <div className="relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                  src="https://images.unsplash.com/photo-1493962853295-0fd70327578a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
                   alt="Farmer with fresh produce" 
                   className="rounded-lg shadow-xl"
                 />
@@ -120,7 +121,7 @@ const Index = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
+                  src="https://images.unsplash.com/photo-1465379944081-7f47de8d74ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
                   alt="User" 
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -135,7 +136,7 @@ const Index = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
+                  src="https://images.unsplash.com/photo-1466721591366-2d5fba72006d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
                   alt="User" 
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -150,7 +151,7 @@ const Index = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex items-center mb-4">
                 <img 
-                  src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
+                  src="https://images.unsplash.com/photo-1493962853295-0fd70327578a?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" 
                   alt="User" 
                   className="w-12 h-12 rounded-full object-cover"
                 />

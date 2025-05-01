@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Mic, MicOff, Headphones, HeadphoneOff } from "lucide-react";
+import { Mic, MicOff, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import ProductUploadSteps, { productUploadStepsData } from "./ProductUploadSteps";
 
 interface VoiceAssistantProps {
   isOpen: boolean;
@@ -58,6 +59,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
   const [isListening, setIsListening] = useState<boolean>(false);
   const [transcript, setTranscript] = useState<string>("");
   const [response, setResponse] = useState<string>("");
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const { toast } = useToast();
 
   const handleApiKeySubmit = () => {
@@ -146,13 +148,51 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
     
     const lowercaseQuery = query.toLowerCase();
     
-    if (lowercaseQuery.includes("how to upload") || lowercaseQuery.includes("add product")) {
+    // Handle step-by-step upload instructions
+    if (lowercaseQuery.includes("step by step") || lowercaseQuery.includes("how to upload") || lowercaseQuery.includes("show me steps")) {
+      if (currentStep === 0) {
+        setCurrentStep(1);
+        assistantResponse = `Let me guide you through uploading a product step by step.\n\n${productUploadStepsData[0].title}\n${productUploadStepsData[0].description}\n\nSay "next step" to continue.`;
+      } else {
+        setCurrentStep(1);
+        assistantResponse = `Let's restart the step-by-step guide.\n\n${productUploadStepsData[0].title}\n${productUploadStepsData[0].description}\n\nSay "next step" to continue.`;
+      }
+    }
+    else if (lowercaseQuery.includes("next step") || lowercaseQuery.includes("continue")) {
+      if (currentStep > 0 && currentStep < productUploadStepsData.length) {
+        const nextStep = currentStep + 1;
+        setCurrentStep(nextStep);
+        
+        if (nextStep <= productUploadStepsData.length) {
+          assistantResponse = `${productUploadStepsData[nextStep-1].title}\n${productUploadStepsData[nextStep-1].description}`;
+          
+          if (nextStep < productUploadStepsData.length) {
+            assistantResponse += "\n\nSay \"next step\" to continue.";
+          } else {
+            assistantResponse += "\n\nYou've completed all steps! Your product should now be listed.";
+          }
+        }
+      } else {
+        assistantResponse = "To start the step-by-step guide, please say 'How to upload products'";
+      }
+    }
+    else if (lowercaseQuery.includes("previous step") || lowercaseQuery.includes("go back")) {
+      if (currentStep > 1) {
+        const prevStep = currentStep - 1;
+        setCurrentStep(prevStep);
+        assistantResponse = `${productUploadStepsData[prevStep-1].title}\n${productUploadStepsData[prevStep-1].description}\n\nSay "next step" to continue or "previous step" to go back.`;
+      } else {
+        assistantResponse = "You're already at the first step. Say 'next step' to continue.";
+      }
+    }
+    else if (lowercaseQuery.includes("upload") || lowercaseQuery.includes("add product")) {
       assistantResponse = 
         "To upload a product, follow these steps:\n" +
         "1. Click on the 'Add Product' button at the top right of your dashboard\n" +
         "2. Fill in the product name, price, quantity and category\n" +
         "3. Add a description and an image URL for your product\n" +
-        "4. Click Save to add your product to your inventory";
+        "4. Click Save to add your product to your inventory\n\n" +
+        "For a step-by-step guide, say 'show me steps'";
     } 
     else if (lowercaseQuery.includes("sell") || lowercaseQuery.includes("selling")) {
       assistantResponse = 
@@ -190,7 +230,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
     else {
       assistantResponse = 
         "I'm here to help with managing your products. You can ask me:\n" +
-        "- How to upload a new product\n" +
+        "- How to upload a new product step by step\n" +
         "- Tips for selling your products\n" +
         "- How to price your products\n" +
         "- How to edit or delete products";
@@ -198,6 +238,23 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
     
     setResponse(assistantResponse);
     speakResponse(assistantResponse);
+  };
+
+  const handleStepChange = (step: number) => {
+    let assistantResponse = "";
+    
+    if (step > 0 && step <= productUploadStepsData.length) {
+      assistantResponse = `${productUploadStepsData[step-1].title}\n${productUploadStepsData[step-1].description}`;
+      
+      if (step < productUploadStepsData.length) {
+        assistantResponse += "\n\nSay \"next step\" to continue.";
+      } else {
+        assistantResponse += "\n\nYou've completed all steps! Your product should now be listed.";
+      }
+      
+      setResponse(assistantResponse);
+      speakResponse(assistantResponse);
+    }
   };
 
   const speakResponse = (text: string) => {
@@ -219,7 +276,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {isListening ? (
@@ -230,7 +287,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
             Farmer Voice Assistant
           </DialogTitle>
           <DialogDescription>
-            Get help with uploading and selling your products using voice commands
+            Get help with uploading and selling your products using voice commands. Ask "How to upload products step by step" to get started.
           </DialogDescription>
         </DialogHeader>
 
@@ -272,7 +329,7 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
                 <p className="text-gray-500 italic mb-4">
                   {isListening 
                     ? "Listening... Speak now" 
-                    : "Click the microphone button and ask how to upload or sell products"
+                    : "Click the microphone button and ask 'How to upload products step by step'"
                   }
                 </p>
               )}
@@ -286,6 +343,15 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
                 </>
               )}
             </div>
+
+            {currentStep > 0 && (
+              <ProductUploadSteps
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+                steps={productUploadStepsData}
+                onStepChange={handleStepChange}
+              />
+            )}
 
             <div className="flex justify-center">
               <Button

@@ -1,162 +1,178 @@
 
-import { Product } from './types';
+import { Product } from "./types";
 
-// Mock Products Data
-export const products: Product[] = [
+// Images uploaded to Lovable
+const tomatoesImage = "/lovable-uploads/2211d90b-c933-4414-9a6f-88bd2488e4e8.png"; // Roma Tomatoes image
+const freshTomatoesImage = "/lovable-uploads/103e2fac-c9a8-4f42-b01a-5f45e813c657.png"; // Fresh Tomatoes image
+const dragonFruitImage = "/lovable-uploads/fa7170a4-ce7c-47cc-991a-86c5e611a835.png"; // Dragon Fruit image
+const greenChilliesImage = "/lovable-uploads/cd97f74f-ca6d-4be7-b06d-740d6f023034.png"; // Green Chillies image
+const okraImage = "/lovable-uploads/d866c491-0d44-4946-84dc-3c653117d18b.png"; // Lady Finger/Okra image
+const honeyImage = "/lovable-uploads/4deb2afe-2583-4d6d-b8a2-b93a4d3cd708.png"; // Organic Honey image
+const riceImage = "/lovable-uploads/b78ac978-4326-4cef-b7c4-74fd4fcfef9b.png"; // Premium Basmati Rice image
+const brownRiceImage = "/lovable-uploads/db477e41-a554-40ba-a92e-52684b7263ed.png"; // Brown Rice image
+const potatoImage = "/lovable-uploads/4a991fcf-dd03-4d68-87d2-52f0db78af34.png"; // Potatoes image
+const gheeImage = "/lovable-uploads/a74de313-8831-4d01-9f5b-684071becce8.png"; // Pure Cow Ghee image
+const spinachImage = "/lovable-uploads/1663c8c2-63a9-4c21-a5d4-3cce7f60d007.png"; // Fresh Spinach image
+const mangoImage = "/lovable-uploads/4f8edd30-f355-4507-856b-58d0b13ef0ac.png"; // Alphonso Mango image
+const ladyFingerImage = "/lovable-uploads/fb7588af-18ca-4bc3-b056-ac236a205c3e.png"; // Lady Finger image
+const paneeerImage = "/lovable-uploads/1c4dddca-3b1c-4f8d-8ea1-cc1b174e420f.png"; // Fresh Paneer image
+const organicOkraImage = "/lovable-uploads/bd689eb2-8523-4cd0-9698-6c94e4e82ada.png"; // Organic Okra image
+
+const products: Product[] = [
   {
     id: "p1",
-    name: "Organic Tomatoes",
-    price: 40,
+    name: "Roma Tomatoes",
+    description: "Fresh, ripe Roma tomatoes perfect for sauces and salads.",
+    price: 45,
     unit: "kg",
-    image: "/lovable-uploads/ec802808-e3eb-42a1-80f6-2d4f53447cfc.png",
-    farmerId: "f1",
+    quantity: 200,
     category: "Vegetables",
-    quantity: 50,
-    description: "Fresh, juicy organic tomatoes grown without pesticides. Perfect for salads and cooking.",
-    createdAt: "2023-04-01"
+    farmerId: "f1",
+    image: tomatoesImage
   },
   {
     id: "p2",
-    name: "Green Spinach",
-    price: 30,
-    unit: "bunch",
-    image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f1",
+    name: "Fresh Tomatoes",
+    description: "Vine ripened tomatoes grown using traditional farming methods.",
+    price: 60,
+    unit: "kg",
+    quantity: 150,
     category: "Vegetables",
-    quantity: 40,
-    description: "Nutrient-rich spinach leaves, freshly harvested from our organic farm.",
-    createdAt: "2023-04-05"
+    farmerId: "f2",
+    image: freshTomatoesImage
   },
   {
     id: "p3",
-    name: "Red Potatoes",
-    price: 25,
+    name: "Dragon Fruit",
+    description: "Exotic dragon fruit rich in antioxidants and vitamins.",
+    price: 180,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f1",
-    category: "Vegetables",
-    quantity: 100,
-    description: "Versatile red potatoes, perfect for roasting, boiling, or making into delicious curries.",
-    createdAt: "2023-04-10"
+    quantity: 45,
+    category: "Fruits",
+    farmerId: "f3",
+    image: dragonFruitImage
   },
   {
     id: "p4",
-    name: "Premium Basmati Rice",
-    price: 120,
+    name: "Green Chillies",
+    description: "Fresh green chillies with the perfect spice level.",
+    price: 70,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f2",
-    category: "Grains",
-    quantity: 200,
-    description: "Aromatic long-grain basmati rice, aged for enhanced flavor.",
-    createdAt: "2023-04-15"
+    quantity: 80,
+    category: "Vegetables",
+    farmerId: "f1",
+    image: greenChilliesImage
   },
   {
     id: "p5",
-    name: "Sweet Alphonso Mangoes",
-    price: 300,
-    unit: "dozen",
-    image: "https://images.unsplash.com/photo-1553279768-865429fa0078?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+    name: "Lady Finger",
+    description: "Tender and fresh lady finger/okra picked at the right time.",
+    price: 85,
+    unit: "kg",
+    quantity: 70,
+    category: "Vegetables",
     farmerId: "f2",
-    category: "Fruits",
-    quantity: 30,
-    description: "The king of fruits! Juicy, sweet Alphonso mangoes from our orchard.",
-    createdAt: "2023-05-01"
+    image: ladyFingerImage
   },
   {
     id: "p6",
-    name: "Farm Fresh Milk",
-    price: 60,
-    unit: "liter",
-    image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f3",
-    category: "Dairy",
-    quantity: 20,
-    description: "Pure cow's milk, collected fresh daily from our farm.",
-    createdAt: "2023-05-05"
+    name: "Organic Honey",
+    description: "Pure organic honey collected from forest bees, unprocessed and raw.",
+    price: 450,
+    unit: "bottle",
+    quantity: 25,
+    category: "Dairy & Honey",
+    farmerId: "f4",
+    image: honeyImage
   },
   {
     id: "p7",
-    name: "Homemade Paneer",
-    price: 300,
+    name: "Premium Basmati Rice",
+    description: "Premium long-grain basmati rice with perfect aroma.",
+    price: 160,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1631452180539-96aca7d48617?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f3",
-    category: "Dairy",
-    quantity: 15,
-    description: "Soft, fresh paneer made from our farm's milk. Perfect for curries and snacks.",
-    createdAt: "2023-05-10"
+    quantity: 300,
+    category: "Grains",
+    farmerId: "f5",
+    image: riceImage
   },
   {
     id: "p8",
-    name: "Organic Ghee",
-    price: 800,
+    name: "Brown Rice",
+    description: "Organically grown brown rice rich in fiber and nutrients.",
+    price: 140,
     unit: "kg",
-    image: "/lovable-uploads/b81f204f-ada3-485d-a2f5-5900bd02c74b.png",
-    farmerId: "f3",
-    category: "Dairy",
-    quantity: 10,
-    description: "Traditional clarified butter made from organic milk using age-old methods.",
-    createdAt: "2023-05-15"
+    quantity: 250,
+    category: "Grains",
+    farmerId: "f6",
+    image: brownRiceImage
   },
   {
     id: "p9",
-    name: "Dragon Fruit",
-    price: 180,
+    name: "Potatoes",
+    description: "Farm-fresh potatoes perfect for all your cooking needs.",
+    price: 30,
     unit: "kg",
-    image: "/lovable-uploads/0d1295f0-f238-4a13-9642-86cecbec9a3b.png",
-    farmerId: "f4",
-    category: "Fruits",
-    quantity: 25,
-    description: "Exotic dragon fruit with vibrant pink skin and speckled flesh.",
-    createdAt: "2023-06-01"
+    quantity: 500,
+    category: "Vegetables",
+    farmerId: "f3",
+    image: potatoImage
   },
   {
     id: "p10",
-    name: "Fresh Turmeric",
-    price: 120,
+    name: "Pure Cow Ghee",
+    description: "Traditional hand-churned pure cow ghee from indigenous cows.",
+    price: 650,
     unit: "kg",
-    image: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f4",
-    category: "Spices",
-    quantity: 30,
-    description: "Organic turmeric root with high curcumin content for maximum health benefits.",
-    createdAt: "2023-06-05"
+    quantity: 20,
+    category: "Dairy & Honey",
+    farmerId: "f7",
+    image: gheeImage
   },
   {
     id: "p11",
-    name: "Organic Brown Rice",
-    price: 90,
-    unit: "kg",
-    image: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    farmerId: "f5",
-    category: "Grains",
-    quantity: 150,
-    description: "Nutrient-rich brown rice, unpolished and packed with natural goodness.",
-    createdAt: "2023-06-10"
+    name: "Fresh Spinach",
+    description: "Freshly harvested spinach leaves full of iron and vitamins.",
+    price: 55,
+    unit: "bundle",
+    quantity: 120,
+    category: "Vegetables",
+    farmerId: "f1",
+    image: spinachImage
   },
   {
     id: "p12",
-    name: "Fresh Green Chillies",
-    price: 60,
-    unit: "kg",
-    image: "/lovable-uploads/82e81e16-1fb0-4425-8add-d58ab4021635.png",
-    farmerId: "f5",
-    category: "Vegetables",
-    quantity: 20,
-    description: "Spicy green chillies to add heat to your dishes.",
-    createdAt: "2023-06-15"
+    name: "Alphonso Mango",
+    description: "The king of fruits - premium Alphonso mangoes from Ratnagiri.",
+    price: 350,
+    unit: "dozen",
+    quantity: 30,
+    category: "Fruits",
+    farmerId: "f2",
+    image: mangoImage
   },
   {
     id: "p13",
     name: "Organic Okra",
-    price: 70,
+    description: "Certified organic lady fingers grown without pesticides.",
+    price: 120,
     unit: "kg",
-    image: "/lovable-uploads/296d254a-0cd8-4a55-ae0f-db5097623300.png",
-    farmerId: "f5",
+    quantity: 50,
     category: "Vegetables",
-    quantity: 35,
-    description: "Tender okra pods grown without chemicals, perfect for curries and stir-fries.",
-    createdAt: "2023-06-20"
+    farmerId: "f4",
+    image: organicOkraImage
+  },
+  {
+    id: "p14",
+    name: "Fresh Paneer",
+    description: "Homemade fresh cottage cheese made from farm-fresh milk.",
+    price: 280,
+    unit: "kg",
+    quantity: 15,
+    category: "Dairy & Honey",
+    farmerId: "f7",
+    image: paneeerImage
   }
 ];
+
+export default products;
