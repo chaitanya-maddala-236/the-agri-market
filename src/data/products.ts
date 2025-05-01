@@ -18,7 +18,8 @@ const ladyFingerImage = "/lovable-uploads/fb7588af-18ca-4bc3-b056-ac236a205c3e.p
 const paneeerImage = "/lovable-uploads/1c4dddca-3b1c-4f8d-8ea1-cc1b174e420f.png"; // Fresh Paneer image
 const organicOkraImage = "/lovable-uploads/bd689eb2-8523-4cd0-9698-6c94e4e82ada.png"; // Organic Okra image
 
-const products: Product[] = [
+// Change from default export to named export
+export const products: Product[] = [
   {
     id: "p1",
     name: "Roma Tomatoes",
@@ -28,7 +29,8 @@ const products: Product[] = [
     quantity: 200,
     category: "Vegetables",
     farmerId: "f1",
-    image: tomatoesImage
+    image: tomatoesImage,
+    createdAt: new Date().toISOString() // Add createdAt field
   },
   {
     id: "p2",
@@ -39,7 +41,8 @@ const products: Product[] = [
     quantity: 150,
     category: "Vegetables",
     farmerId: "f2",
-    image: freshTomatoesImage
+    image: freshTomatoesImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p3",
@@ -50,7 +53,8 @@ const products: Product[] = [
     quantity: 45,
     category: "Fruits",
     farmerId: "f3",
-    image: dragonFruitImage
+    image: dragonFruitImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p4",
@@ -61,7 +65,8 @@ const products: Product[] = [
     quantity: 80,
     category: "Vegetables",
     farmerId: "f1",
-    image: greenChilliesImage
+    image: greenChilliesImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p5",
@@ -72,7 +77,8 @@ const products: Product[] = [
     quantity: 70,
     category: "Vegetables",
     farmerId: "f2",
-    image: ladyFingerImage
+    image: ladyFingerImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p6",
@@ -83,7 +89,8 @@ const products: Product[] = [
     quantity: 25,
     category: "Dairy & Honey",
     farmerId: "f4",
-    image: honeyImage
+    image: honeyImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p7",
@@ -94,7 +101,8 @@ const products: Product[] = [
     quantity: 300,
     category: "Grains",
     farmerId: "f5",
-    image: riceImage
+    image: riceImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p8",
@@ -105,7 +113,8 @@ const products: Product[] = [
     quantity: 250,
     category: "Grains",
     farmerId: "f6",
-    image: brownRiceImage
+    image: brownRiceImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p9",
@@ -116,7 +125,8 @@ const products: Product[] = [
     quantity: 500,
     category: "Vegetables",
     farmerId: "f3",
-    image: potatoImage
+    image: potatoImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p10",
@@ -127,7 +137,8 @@ const products: Product[] = [
     quantity: 20,
     category: "Dairy & Honey",
     farmerId: "f7",
-    image: gheeImage
+    image: gheeImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p11",
@@ -138,7 +149,8 @@ const products: Product[] = [
     quantity: 120,
     category: "Vegetables",
     farmerId: "f1",
-    image: spinachImage
+    image: spinachImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p12",
@@ -149,7 +161,8 @@ const products: Product[] = [
     quantity: 30,
     category: "Fruits",
     farmerId: "f2",
-    image: mangoImage
+    image: mangoImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p13",
@@ -160,7 +173,8 @@ const products: Product[] = [
     quantity: 50,
     category: "Vegetables",
     farmerId: "f4",
-    image: organicOkraImage
+    image: organicOkraImage,
+    createdAt: new Date().toISOString()
   },
   {
     id: "p14",
@@ -171,8 +185,10 @@ const products: Product[] = [
     quantity: 15,
     category: "Dairy & Honey",
     farmerId: "f7",
-    image: paneeerImage
+    image: paneeerImage,
+    createdAt: new Date().toISOString()
   }
 ];
 
+// Also provide default export to avoid breaking imports that use default import
 export default products;

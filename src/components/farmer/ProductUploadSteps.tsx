@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ProductUploadStepsProps {
   currentStep: number;
@@ -63,25 +64,41 @@ export default function ProductUploadSteps({
   };
 
   return (
-    <div className="flex items-center justify-between bg-agro-light/30 p-2 rounded-md">
-      <span className="text-sm font-medium">Step {currentStep} of {steps.length}</span>
-      <div className="flex gap-2">
-        <Button 
-          size="sm" 
-          variant="outline"
-          onClick={handlePrevStep}
-          disabled={currentStep <= 1}
-        >
-          Previous
-        </Button>
-        <Button 
-          size="sm" 
-          onClick={handleNextStep}
-          disabled={currentStep >= steps.length}
-        >
-          Next
-        </Button>
-      </div>
-    </div>
+    <Card className="mb-4">
+      <CardContent className="pt-4">
+        <div className="mb-4">
+          <h3 className="font-semibold text-lg">{steps[currentStep - 1].title}</h3>
+          <p className="text-gray-600">{steps[currentStep - 1].description}</p>
+        </div>
+        
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+          <div 
+            className="bg-agro-primary h-2.5 rounded-full" 
+            style={{ width: `${(currentStep / steps.length) * 100}%` }}
+          ></div>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">Step {currentStep} of {steps.length}</span>
+          <div className="flex gap-2">
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={handlePrevStep}
+              disabled={currentStep <= 1}
+            >
+              Previous
+            </Button>
+            <Button 
+              size="sm" 
+              onClick={handleNextStep}
+              disabled={currentStep >= steps.length}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
