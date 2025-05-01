@@ -188,23 +188,31 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
         assistantResponse = t('voiceAssistant.firstStepPrompt');
       }
     }
+    // Additional query handlers for upload, delete, edit, payment status
     else if (lowercaseQuery.includes("upload") || lowercaseQuery.includes("add product")) {
       assistantResponse = t('voiceAssistant.uploadInstructions');
     } 
-    else if (lowercaseQuery.includes("sell") || lowercaseQuery.includes("selling")) {
-      assistantResponse = t('voiceAssistant.sellingTips');
+    else if (lowercaseQuery.includes("delete") || lowercaseQuery.includes("remove product")) {
+      assistantResponse = `${t('voiceAssistant.deleteInstructions')}\n\n${t('voiceAssistant.deleteWarning')}`;
     }
-    else if (lowercaseQuery.includes("price") || lowercaseQuery.includes("pricing")) {
-      assistantResponse = t('voiceAssistant.pricingTips');
-    }
-    else if (lowercaseQuery.includes("edit") || lowercaseQuery.includes("update product")) {
+    else if (lowercaseQuery.includes("edit") || lowercaseQuery.includes("update product") || lowercaseQuery.includes("modify")) {
       assistantResponse = t('voiceAssistant.editInstructions');
     }
-    else if (lowercaseQuery.includes("delete") || lowercaseQuery.includes("remove product")) {
-      assistantResponse = t('voiceAssistant.deleteInstructions');
+    else if (lowercaseQuery.includes("payment") || lowercaseQuery.includes("order status") || lowercaseQuery.includes("tracking")) {
+      assistantResponse = `${t('voiceAssistant.paymentStatusInstructions')}\n\n${t('voiceAssistant.orderStatusTypes')}`;
+    }
+    else if (lowercaseQuery.includes("price") || lowercaseQuery.includes("pricing") || lowercaseQuery.includes("cost")) {
+      assistantResponse = t('voiceAssistant.pricingTips');
+    }
+    else if (lowercaseQuery.includes("sell") || lowercaseQuery.includes("selling") || lowercaseQuery.includes("sales")) {
+      assistantResponse = t('voiceAssistant.sellingTips');
+    }
+    else if (lowercaseQuery.includes("help") || lowercaseQuery.includes("assist")) {
+      assistantResponse = `${t('voiceAssistant.helpIntro')}\n\n${t('voiceAssistant.commandsList')}`;
     }
     else {
-      assistantResponse = t('voiceAssistant.helpIntro');
+      // Default response for unrecognized queries
+      assistantResponse = `${t('voiceAssistant.defaultResponse')}\n\n${t('voiceAssistant.commandsList')}`;
     }
     
     setResponse(assistantResponse);
@@ -371,6 +379,43 @@ export default function VoiceAssistant({ isOpen, onClose }: VoiceAssistantProps)
                 </div>
               </>
             )}
+          </div>
+
+          {/* Suggested commands */}
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs py-1 px-2 h-auto border-agro-primary/30 hover:bg-agro-primary/10"
+              onClick={() => {
+                setTranscript("How to upload a product?");
+                processQuery("How to upload a product?");
+              }}
+            >
+              How to upload?
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs py-1 px-2 h-auto border-agro-primary/30 hover:bg-agro-primary/10"
+              onClick={() => {
+                setTranscript("How to delete a product?");
+                processQuery("How to delete a product?");
+              }}
+            >
+              How to delete?
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs py-1 px-2 h-auto border-agro-primary/30 hover:bg-agro-primary/10"
+              onClick={() => {
+                setTranscript("Step by step guide");
+                processQuery("Step by step guide");
+              }}
+            >
+              Step-by-step guide
+            </Button>
           </div>
 
           {/* Volume control slider */}
