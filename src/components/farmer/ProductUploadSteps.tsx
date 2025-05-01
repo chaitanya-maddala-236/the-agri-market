@@ -41,6 +41,14 @@ export const productUploadStepsData = [
   }
 ];
 
+// Create a function to transform the data with translations
+export const getTranslatedSteps = (t: (key: string) => string) => {
+  return productUploadStepsData.map(step => ({
+    title: t(step.titleKey),
+    description: t(step.descriptionKey)
+  }));
+};
+
 export default function ProductUploadSteps({ 
   currentStep, 
   setCurrentStep, 
