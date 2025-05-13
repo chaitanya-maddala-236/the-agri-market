@@ -4,6 +4,8 @@
 [![GitHub](https://img.shields.io/github/license/chaitanya-maddala-236/the-agri-market)](https://github.com/chaitanya-maddala-236/the-agri-market/blob/main/LICENSE)
 
 A modern digital marketplace connecting farmers directly with consumers, enabling transparent and efficient agricultural commerce.
+![image](https://github.com/user-attachments/assets/f61ab829-e0d2-419e-abd4-34f157cd1307)
+
 
 ![The Agri Market Banner](https://github.com/chaitanya-maddala-236/the-agri-market/blob/main/assets/readme_images/Landing%20Page.png?raw=true)
 
