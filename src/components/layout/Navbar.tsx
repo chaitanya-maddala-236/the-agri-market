@@ -40,6 +40,11 @@ export default function Navbar({ isLoggedIn = false, userType = null, cartItemCo
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
+            <img 
+              src="/lovable-uploads/2be81355-8c06-4f00-972b-0794dc221c18.png" 
+              alt="AgroConnect Logo" 
+              className="w-8 h-8 object-contain"
+            />
             <span className="text-agro-primary font-bold text-2xl">Agro<span className="text-agro-secondary">Connect</span></span>
           </Link>
 
