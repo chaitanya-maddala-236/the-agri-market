@@ -19,6 +19,7 @@ import FarmerRegister from "./pages/auth/FarmerRegister";
 import CustomerLogin from "./pages/auth/CustomerLogin";
 import CustomerRegister from "./pages/auth/CustomerRegister";
 import FarmerDashboard from "./pages/farmers/FarmerDashboard";
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/customer/login" element={<CustomerLogin />} />
             <Route path="/customer/register" element={<CustomerRegister />} />
             <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+            <Route path="/customer/dashboard" element={<CustomerDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

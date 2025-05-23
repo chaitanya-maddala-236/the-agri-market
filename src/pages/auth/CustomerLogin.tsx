@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -22,29 +23,41 @@ const CustomerLogin = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Login attempt with:", { email, password });
     setLoading(true);
 
     // Simulate API call
     setTimeout(() => {
-      const customer = customers.find(c => c.email === email && c.password === password);
+      try {
+        const customer = customers.find(c => c.email === email && c.password === password);
+        console.log("Customer found:", customer);
 
-      if (customer) {
-        toast({
-          title: "Login successful",
-          description: `Welcome back, ${customer.name}!`,
-        });
-        // In a real app, you would set authentication state
-        localStorage.setItem("agroConnect_user", JSON.stringify({ 
-          id: customer.id, 
-          name: customer.name, 
-          type: "customer" 
-        }));
-        navigate("/customer/dashboard");
-      } else {
+        if (customer) {
+          toast({
+            title: "Login successful",
+            description: `Welcome back, ${customer.name}!`,
+          });
+          // In a real app, you would set authentication state
+          localStorage.setItem("agroConnect_user", JSON.stringify({ 
+            id: customer.id, 
+            name: customer.name, 
+            type: "customer" 
+          }));
+          console.log("Navigating to customer dashboard");
+          navigate("/customer/dashboard");
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Login failed",
+            description: "Invalid email or password. Please try again.",
+          });
+        }
+      } catch (error) {
+        console.error("Login error:", error);
         toast({
           variant: "destructive",
-          title: "Login failed",
-          description: "Invalid email or password. Please try again.",
+          title: "Login error",
+          description: "An unexpected error occurred. Please try again.",
         });
       }
       setLoading(false);
