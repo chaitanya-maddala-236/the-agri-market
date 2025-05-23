@@ -11,7 +11,7 @@ import { Star, ShoppingCart, Minus, Plus, ChevronLeft, MessageCircle } from "luc
 import { farmers } from "@/data/farmers";
 import { FarmerProfile } from "@/data/types";
 import ProductReviews from "@/components/farmer/ProductReviews";
-import FarmerChat from "@/components/chat/FarmerChat";
+import CustomerFarmerChat from "@/components/chat/CustomerFarmerChat";
 import { 
   Select,
   SelectContent,
@@ -179,7 +179,7 @@ export default function ProductDetailPage() {
                 disabled={!farmer}
               >
                 <MessageCircle size={18} />
-                Chat & Negotiate
+                Chat with Farmer
               </Button>
             </div>
             
@@ -390,14 +390,12 @@ export default function ProductDetailPage() {
       
       <Footer />
 
-      {/* Chat Modal */}
-      <FarmerChat
+      {/* Customer-Farmer Chat Modal */}
+      <CustomerFarmerChat
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
         product={product}
-        farmer={farmer}
         quantity={quantity}
-        originalPrice={product?.price || 0}
       />
     </div>
   );

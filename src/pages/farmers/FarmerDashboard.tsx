@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProductReviews from "@/components/farmer/ProductReviews";
 import SalesAnalytics from "@/components/farmer/SalesAnalytics";
 import SeasonalCalendar from "@/components/farmer/SeasonalCalendar";
+import FarmerMessages from "@/components/farmer/FarmerMessages";
 
 export default function FarmerDashboard() {
   const { toast } = useToast();
@@ -106,6 +107,7 @@ export default function FarmerDashboard() {
           <Tabs defaultValue="products">
             <TabsList className="mb-6">
               <TabsTrigger value="products">Products</TabsTrigger>
+              <TabsTrigger value="messages">Messages</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="calendar">Seasonal Calendar</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
@@ -204,6 +206,10 @@ export default function FarmerDashboard() {
                   </div>
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="messages">
+              <FarmerMessages />
             </TabsContent>
             
             <TabsContent value="analytics">
