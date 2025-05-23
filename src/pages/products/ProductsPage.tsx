@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { getEnrichedProducts } from "@/data/utils";
@@ -8,6 +7,7 @@ import { Filter } from "lucide-react";
 import SearchBar from "@/components/search/SearchBar";
 import FilterSidebar from "@/components/filters/FilterSidebar";
 import ProductGrid from "@/components/products/ProductGrid";
+import FloatingChatButton from "@/components/chat/FloatingChatButton";
 
 interface FilterState {
   categories: string[];
@@ -200,6 +200,9 @@ export default function ProductsPage() {
       </main>
       
       <Footer />
+      
+      {/* Floating Chat Button */}
+      <FloatingChatButton products={filteredProducts} />
     </div>
   );
 }

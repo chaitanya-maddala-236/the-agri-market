@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,10 +7,11 @@ import { products } from "@/data/products";
 import { getFarmerByProduct } from "@/data/utils";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Star, ShoppingCart, Minus, Plus, ChevronLeft } from "lucide-react";
+import { Star, ShoppingCart, Minus, Plus, ChevronLeft, MessageCircle } from "lucide-react";
 import { farmers } from "@/data/farmers";
 import { FarmerProfile } from "@/data/types";
 import ProductReviews from "@/components/farmer/ProductReviews";
+import FarmerChat from "@/components/chat/FarmerChat";
 import { 
   Select,
   SelectContent,
@@ -30,6 +30,7 @@ export default function ProductDetailPage() {
   const [availableFarmers, setAvailableFarmers] = useState<FarmerProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     // In a real app, this would be an API call
@@ -129,6 +130,18 @@ export default function ProductDetailPage() {
     // In a real app, this would add to cart state with farmer info
   };
 
+  const handleChatWithFarmer = () => {
+    if (!farmer) {
+      toast({
+        title: "Select a farmer first",
+        description: "Please choose a farmer before starting a chat",
+        variant: "destructive"
+      });
+      return;
+    }
+    setIsChatOpen(true);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -158,7 +171,17 @@ export default function ProductDetailPage() {
 
           {/* Product Details */}
           <div>
-            <h1 className="text-3xl font-bold mb-2">{product?.name}</h1>
+            <div className="flex justify-between items-start mb-2">
+              <h1 className="text-3xl font-bold">{product?.name}</h1>
+              <Button
+                onClick={handleChatWithFarmer}
+                className="bg-blue-500 hover:bg-blue-600 flex items-center gap-2"
+                disabled={!farmer}
+              >
+                <MessageCircle size={18} />
+                Chat & Negotiate
+              </Button>
+            </div>
             
             <div className="flex items-center mb-4">
               <span className="text-2xl font-bold text-gray-800 mr-2">₹{product?.price}</span>
@@ -366,6 +389,16 @@ export default function ProductDetailPage() {
       </main>
       
       <Footer />
+
+      {/* Chat Modal */}
+      <FarmerChat
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        product={product}
+        farmer={farmer}
+        quantity={quantity}
+        originalPrice={product?.price || 0}
+      />
     </div>
   );
 }
