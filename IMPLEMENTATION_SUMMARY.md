@@ -150,6 +150,14 @@ This document summarizes the complete backend implementation and 3D UI enhanceme
 - ✅ Seed script production block
 - ✅ Server message formatting
 
+### Dependency Vulnerabilities
+- ✅ **Multer upgraded from 1.4.5-lts.2 to 2.0.2**
+- **Fixed 4 CVEs**:
+  - DoS via unhandled exception from malformed request
+  - DoS via unhandled exception
+  - DoS from maliciously crafted requests
+  - DoS via memory leaks from unclosed streams
+
 ### Security Measures
 1. Password hashing with bcrypt
 2. JWT authentication
@@ -159,6 +167,7 @@ This document summarizes the complete backend implementation and 3D UI enhanceme
 6. Helmet security headers
 7. Role-based access control
 8. Production environment checks
+9. **Multer 2.0.2** (all DoS vulnerabilities patched)
 
 ## 📁 Project Structure
 
@@ -218,7 +227,7 @@ npm run dev      # Start at :5173
 - **API Endpoints**: 20+ routes
 - **Database Models**: 6 schemas
 - **Lines of Code**: ~5,000+ added
-- **Security Issues Fixed**: 28 (code review + CodeQL)
+- **Security Issues Fixed**: 32 (23 CodeQL + 5 code review + 4 multer CVEs)
 
 ## 🎯 What's Next
 
