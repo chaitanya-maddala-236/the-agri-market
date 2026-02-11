@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { register, login, getProfile } from '../controllers/authController.js';
 import { authenticate } from '../middleware/auth.js';
+import { authLimiter } from '../middleware/rateLimiter.js';
 import { body } from 'express-validator';
 
 const router = Router();
@@ -18,9 +19,9 @@ const loginValidation = [
   body('password').notEmpty().withMessage('Password is required'),
 ];
 
-// Routes
-router.post('/register', registerValidation, register);
-router.post('/login', loginValidation, login);
+// Routes with rate limiting
+router.post('/register', authLimiter, registerValidation, register);
+router.post('/login', authLimiter, loginValidation, login);
 router.get('/profile', authenticate, getProfile);
 
 export default router;

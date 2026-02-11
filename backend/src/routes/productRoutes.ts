@@ -8,6 +8,7 @@ import {
   getFarmerProducts,
 } from '../controllers/productController.js';
 import { authenticate, authorize } from '../middleware/auth.js';
+import { createLimiter } from '../middleware/rateLimiter.js';
 import { body } from 'express-validator';
 
 const router = Router();
@@ -38,8 +39,8 @@ router.get('/', getProducts);
 router.get('/:id', getProduct);
 router.get('/farmer/:farmerId', getFarmerProducts);
 
-// Protected routes (farmer only)
-router.post('/', authenticate, authorize('farmer'), productValidation, createProduct);
+// Protected routes (farmer only) with rate limiting
+router.post('/', authenticate, authorize('farmer'), createLimiter, productValidation, createProduct);
 router.put('/:id', authenticate, authorize('farmer'), updateProduct);
 router.delete('/:id', authenticate, authorize('farmer'), deleteProduct);
 

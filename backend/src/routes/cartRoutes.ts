@@ -7,12 +7,13 @@ import {
   clearCart,
 } from '../controllers/cartController.js';
 import { authenticate, authorize } from '../middleware/auth.js';
+import { apiLimiter } from '../middleware/rateLimiter.js';
 import { body } from 'express-validator';
 
 const router = Router();
 
 // All cart routes require authentication as customer
-router.use(authenticate, authorize('customer'));
+router.use(authenticate, authorize('customer'), apiLimiter);
 
 // Validation
 const addToCartValidation = [

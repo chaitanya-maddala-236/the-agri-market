@@ -6,6 +6,7 @@ import compression from 'compression';
 import config from './config/index.js';
 import { connectDB } from './config/database.js';
 import { errorHandler } from './utils/errorHandler.js';
+import { apiLimiter } from './middleware/rateLimiter.js';
 
 // Import routes
 import authRoutes from './routes/authRoutes.js';
@@ -30,10 +31,13 @@ if (config.env === 'development') {
   app.use(morgan('dev'));
 }
 
-// Health check
+// Health check (no rate limit)
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// Apply global rate limiting to all API routes
+app.use('/api', apiLimiter);
 
 // API Routes
 app.use('/api/auth', authRoutes);

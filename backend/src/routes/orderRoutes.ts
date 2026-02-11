@@ -7,6 +7,7 @@ import {
   cancelOrder,
 } from '../controllers/orderController.js';
 import { authenticate, authorize } from '../middleware/auth.js';
+import { apiLimiter, createLimiter } from '../middleware/rateLimiter.js';
 import { body } from 'express-validator';
 
 const router = Router();
@@ -23,10 +24,10 @@ const createOrderValidation = [
 ];
 
 // All routes require authentication
-router.use(authenticate);
+router.use(authenticate, apiLimiter);
 
 // Routes
-router.post('/', authorize('customer'), createOrderValidation, createOrder);
+router.post('/', authorize('customer'), createLimiter, createOrderValidation, createOrder);
 router.get('/', getOrders);
 router.get('/:id', getOrder);
 router.put('/:id/status', authorize('farmer'), updateOrderStatus);
