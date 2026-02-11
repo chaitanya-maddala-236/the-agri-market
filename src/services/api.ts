@@ -3,12 +3,19 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 // Get auth token from localStorage
 export const getAuthToken = (): string | null => {
-  const user = localStorage.getItem('agroConnect_user');
-  if (user) {
-    const userData = JSON.parse(user);
-    return userData.token || null;
+  try {
+    const user = localStorage.getItem('agroConnect_user');
+    if (user) {
+      const userData = JSON.parse(user);
+      return userData.token || null;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error parsing user data from localStorage:', error);
+    // Clear corrupted data
+    localStorage.removeItem('agroConnect_user');
+    return null;
   }
-  return null;
 };
 
 // API request helper

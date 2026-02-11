@@ -280,9 +280,9 @@ MIT License - see LICENSE file for details
 
 ## 📧 Support
 
-For issues and questions, please open an issue on GitHub or contact:
-- Email: chaitanya.maddala@example.com
-- GitHub: [@chaitanya-maddala-236](https://github.com/chaitanya-maddala-236)
+For issues and questions, please open an issue on GitHub.
+
+GitHub: [@chaitanya-maddala-236](https://github.com/chaitanya-maddala-236)
 
 ## 🙏 Acknowledgments
 

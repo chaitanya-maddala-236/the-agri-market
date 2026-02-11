@@ -6,6 +6,12 @@ import config from '../config/index.js';
 
 const seedData = async () => {
   try {
+    // Prevent running in production
+    if (process.env.NODE_ENV === 'production') {
+      console.error('❌ Cannot run seed script in production environment!');
+      process.exit(1);
+    }
+
     await mongoose.connect(config.mongoUri);
     console.log('Connected to MongoDB');
 

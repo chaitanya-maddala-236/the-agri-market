@@ -58,9 +58,9 @@ app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════╗
 ║   🌾 Agri Market Backend Server               ║
-║   Environment: ${config.env.padEnd(30)} ║
-║   Port: ${PORT.toString().padEnd(38)} ║
-║   API Base: http://localhost:${PORT}/api${' '.padEnd(10)} ║
+║   Environment: ${config.env.padEnd(20)}          ║
+║   Port: ${PORT.toString().padEnd(28)}          ║
+║   API Base: http://localhost:${PORT}/api      ║
 ╚═══════════════════════════════════════════════╝
   `);
 });
