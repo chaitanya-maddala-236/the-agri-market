@@ -32,59 +32,81 @@ The platform aims to empower farmers with better control over their sales and pr
 ## 🖥️ Tech Stack
 
 ### Frontend
-- React.js
-- Next.js
-- Tailwind CSS
-- Redux for state management
-- Material UI components
+- React 18 with TypeScript
+- Vite for blazing fast development
+- Tailwind CSS for styling
+- Shadcn UI components
+- Three.js for 3D visualizations
+- Framer Motion for animations
+- React Query for data fetching
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Firebase (Authentication)
+### Backend (NEW! ✨)
+- Node.js with Express
+- TypeScript
+- MongoDB with Mongoose ODM
+- JWT authentication
+- Bcrypt password hashing
+- Express Validator
 
 ### DevOps & Deployment
-- Vercel for hosting
+- Vercel for frontend hosting
+- MongoDB Atlas for database
 - GitHub Actions for CI/CD
-- Docker for containerization
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v14.0 or later)
+- Node.js (v18.0 or later)
 - npm or yarn
 - MongoDB (local or Atlas connection)
 
-### Installation
+### Quick Setup
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/chaitanya-maddala-236/the-agri-market.git
-   cd the-agri-market
-   ```
+See [SETUP.md](./SETUP.md) for detailed installation instructions.
 
-2. Install dependencies
+#### Backend Setup
+
+1. Navigate to backend directory
    ```bash
+   cd backend
    npm install
-   # or
-   yarn install
    ```
 
-3. Set up environment variables
+2. Configure environment
    ```bash
    cp .env.example .env
-   # Edit .env with your configuration values
+   # Edit .env with your MongoDB URI and JWT secret
    ```
 
-4. Run the development server
+3. Seed database (optional)
+   ```bash
+   npm run seed
+   ```
+
+4. Start backend server
    ```bash
    npm run dev
-   # or
-   yarn dev
+   ```
+   Backend runs at `http://localhost:5000`
+
+#### Frontend Setup
+
+1. Install dependencies
+   ```bash
+   npm install --legacy-peer-deps
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+2. Configure environment
+   ```bash
+   cp .env.example .env
+   # Set VITE_API_URL=http://localhost:5000/api
+   ```
+
+3. Start development server
+   ```bash
+   npm run dev
+   ```
+   Frontend runs at `http://localhost:5173`
 
 ## 📱 App Screenshots
 

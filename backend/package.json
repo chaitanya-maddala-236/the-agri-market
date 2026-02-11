@@ -8,6 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+    "seed": "tsx src/utils/seedDatabase.ts",
     "lint": "eslint . --ext .ts"
   },
   "keywords": ["agriculture", "marketplace", "api"],
