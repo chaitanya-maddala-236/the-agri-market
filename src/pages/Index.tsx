@@ -2,9 +2,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getEnrichedProducts } from "@/data/utils";
-import ProductCard from "@/components/cards/ProductCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Hero3DSection from "@/components/3d/Hero3DSection";
+import Product3DCard from "@/components/3d/Product3DCard";
 
 const Index = () => {
   const featuredProducts = getEnrichedProducts().slice(0, 4);
@@ -13,55 +14,8 @@ const Index = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-agro-light to-white py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="md:w-1/2 md:pr-10 mb-10 md:mb-0">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-800">
-                Fresh from <span className="text-agro-primary">Farm</span> to <span className="text-agro-secondary">Home</span>
-              </h1>
-              <p className="text-lg md:text-xl mb-8 text-gray-600">
-                Connect directly with local farmers and get fresh produce delivered to your doorstep. No middlemen, better prices, fresher food.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/farmer/register">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-agro-primary text-agro-primary hover:bg-agro-primary hover:text-white">
-                    I'm a Farmer
-                  </Button>
-                </Link>
-                <Link to="/customer/register">
-                  <Button size="lg" className="w-full sm:w-auto bg-agro-primary hover:bg-agro-dark">
-                    I'm a Customer
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="md:w-1/2">
-              <div className="relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1493962853295-0fd70327578a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                  alt="Farmer with fresh produce" 
-                  className="rounded-lg shadow-xl"
-                />
-                <div className="absolute -bottom-5 -left-5 bg-white p-4 rounded-lg shadow-lg hidden md:block">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-green-100 p-2 rounded-full">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-agro-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-semibold">Direct from Farmers</p>
-                      <p className="text-sm text-gray-600">No middlemen involved</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Enhanced 3D Hero Section */}
+      <Hero3DSection />
 
       {/* How It Works */}
       <section className="py-16 bg-white">
@@ -96,7 +50,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* Featured Products with 3D Cards */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
@@ -106,7 +60,7 @@ const Index = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <Product3DCard key={product.id} product={product} farmerName={product.farmerName} />
             ))}
           </div>
         </div>
