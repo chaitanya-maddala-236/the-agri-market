@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { authAPI } from "@/services/api";
 
 const CustomerRegister = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const CustomerRegister = () => {
     setFormData(prev => ({ ...prev, acceptTerms: checked }));
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -54,16 +55,31 @@ const CustomerRegister = () => {
 
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      toast({
-        title: "Registration successful",
-        description: "Your customer account has been created!",
+    try {
+      const response: any = await authAPI.register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: 'customer',
+        location: formData.location,
       });
-      // In a real app, this would create the user in the database
-      navigate("/customer/login");
+
+      if (response.success) {
+        toast({
+          title: "Registration successful",
+          description: "Your customer account has been created! Please login.",
+        });
+        navigate("/customer/login");
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Registration failed",
+        description: error.message || "Failed to create account. Please try again.",
+      });
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
