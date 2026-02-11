@@ -6,10 +6,10 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { farmers } from "@/data/farmers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Eye, EyeOff } from "lucide-react";
+import { authAPI } from "@/services/api";
 
 const FarmerLogin = () => {
   const [email, setEmail] = useState("");
@@ -20,35 +20,44 @@ const FarmerLogin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      const farmer = farmers.find(f => f.email === email && f.password === password);
+    try {
+      const response: any = await authAPI.login({ email, password });
 
-      if (farmer) {
+      if (response.success && response.data.user.role === 'farmer') {
         toast({
           title: "Login successful",
-          description: `Welcome back, ${farmer.name}!`,
+          description: `Welcome back, ${response.data.user.name}!`,
         });
-        // In a real app, you would set authentication state
+        
+        // Store user data and token
         localStorage.setItem("agroConnect_user", JSON.stringify({ 
-          id: farmer.id, 
-          name: farmer.name, 
-          type: "farmer" 
+          id: response.data.user.id, 
+          name: response.data.user.name, 
+          type: "farmer",
+          token: response.data.token,
         }));
+        
         navigate("/farmer/dashboard");
-      } else {
+      } else if (response.data.user.role !== 'farmer') {
         toast({
           variant: "destructive",
           title: "Login failed",
-          description: "Invalid email or password. Please try again.",
+          description: "This account is not registered as a farmer.",
         });
       }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: error.message || "Invalid email or password. Please try again.",
+      });
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const togglePasswordVisibility = () => {

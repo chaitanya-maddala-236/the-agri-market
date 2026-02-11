@@ -7,10 +7,10 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { customers } from "@/data/customers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Eye, EyeOff } from "lucide-react";
+import { authAPI } from "@/services/api";
 
 const CustomerLogin = () => {
   const [email, setEmail] = useState("");
@@ -21,35 +21,45 @@ const CustomerLogin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt with:", { email, password });
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      try {
-        const customer = customers.find(c => c.email === email && c.password === password);
-        console.log("Customer found:", customer);
+    try {
+      const response: any = await authAPI.login({ email, password });
 
-        if (customer) {
-          toast({
-            title: "Login successful",
-            description: `Welcome back, ${customer.name}!`,
-          });
-          // In a real app, you would set authentication state
-          localStorage.setItem("agroConnect_user", JSON.stringify({ 
-            id: customer.id, 
-            name: customer.name, 
-            type: "customer" 
-          }));
-          console.log("Navigating to customer dashboard");
-          navigate("/customer/dashboard");
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Login failed",
-            description: "Invalid email or password. Please try again.",
+      if (response.success && response.data.user.role === 'customer') {
+        toast({
+          title: "Login successful",
+          description: `Welcome back, ${response.data.user.name}!`,
+        });
+        
+        // Store user data and token
+        localStorage.setItem("agroConnect_user", JSON.stringify({ 
+          id: response.data.user.id, 
+          name: response.data.user.name, 
+          type: "customer",
+          token: response.data.token,
+        }));
+        
+        navigate("/customer/dashboard");
+      } else if (response.data.user.role !== 'customer') {
+        toast({
+          variant: "destructive",
+          title: "Login failed",
+          description: "This account is not registered as a customer.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: error.message || "Invalid email or password. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
           });
         }
       } catch (error) {
